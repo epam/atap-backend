@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+    <form>
+        <h1>Edit fields</h1>
+		
+            <h2>Native labels</h2>
+				
+				<h3>Input</h3>
+				
+					<label for="input01">Correct type 1. For <-> id.</label><br>
+					<input type="text" id="input01"><br>
+					
+					<label for="input02">Correct type 1. Field required</label><br>
+					<input type="text" id="input02" required><br>
+					
+					<label for="input03">Correct type 1.(*)</label><br>
+					<input type="text" id="input03" required><br>
+
+					<label>Correct type 2. Label is input parent.
+						<br>
+						<input type="text">
+					</label><br>
+				
+				<h3>Textarea</h3>
+				
+					<label for="textarea01">Correct type 1. For <-> id.</label><br>
+					<textarea id="textarea01"></textarea><br>
+					
+					<label for="textarea02">Correct type 1. Field required</label><br>
+					<textarea id="textarea02" required></textarea><br>
+					
+					<label for="textarea03">Correct type 1.(*)</label><br>
+					<textarea id="textarea03" required></textarea><br>
+
+					<label>Correct type 2. Label is textarea parent.
+						<br>
+						<textarea></textarea>
+					</label><br>
+				
+			<h2>Non native labels for input</h2>
+			
+				<h3>Input</h3>
+				
+					<h4>Aria-describedby</h4>
+				
+						<label id="input04">Correct type 3. id <-> aria-describedby.</label><br>
+						<input type="text" aria-describedby="input04"><br>
+						
+						<div id="input05">Correct type 3. id <-> aria-describedby.</div><br>
+						<input type="text" aria-describedby="input05"><br>
+						
+						<span id="input06">Correct type 3. id <-> aria-describedby.</span><br>
+						<input type="text" aria-describedby="input06"><br>
+						
+						<p id="input07">Correct type 3. id <-> aria-describedby.</p>
+						<input type="text" aria-describedby="input07"><br>
+					
+					<h4>Aria-labelledby</h4>
+					
+						<label id="input08">Correct type 4. id <-> aria-labelledby.</label><br>
+						<input type="text" aria-labelledby="input08"><br>
+						
+						<div id="input09">Correct type 4. id <-> aria-labelledby.</div><br>
+						<input type="text" aria-describedby="input09"><br>
+						
+						<span id="input10">Correct type 4. id <-> aria-labelledby.</span><br>
+						<input type="text" aria-describedby="input10"><br>
+						
+						<p id="input11">Correct type 4. id <-> aria-labelledby.</p>
+						<input type="text" aria-describedby="input11"><br>
+						
+					<h4>Aria-label</h4>
+					
+						<div>
+							<label>Correct type 5. May be.</label><br>
+							<input aria-label='Correct type 5. May be.'><br>
+						</div>
+						
+						<div>
+							<label>Correct type 5. May be.</label><br>
+							<p><input aria-label='Correct type 5. May be.'><p>
+						</div>
+						
+						<h4>Title</h4>
+						
+						<div>
+							<label>Correct type 6. May be.</label><br>
+							<input title='Correct type 6. May be.'><br>
+						</div>
+						
+						<div>
+							<label>Correct type 6. May be.</label><br>
+							<input title='Correct type 6. May be.'><br>
+						</div>
+						
+						<div>
+							<label>Correct type 6. May be.</label><br>
+							<p><input title='Correct type 6. May be.'><p>
+						</div>
+				
+				<h3>Textarea</h3>
+				
+					<h4>Aria-describedby</h4>
+				
+						<label id="textarea04">Correct type 3. id <-> aria-describedby.</label><br>
+						<textarea aria-describedby="textarea04"></textarea><br>
+						
+						<div id="textarea05">Correct type 3. id <-> aria-describedby.</div><br>
+						<textarea aria-describedby="textarea05"></textarea><br>
+						
+						<span id="textarea06">Correct type 3. id <-> aria-describedby.</span><br>
+						<textarea aria-describedby="textarea06"></textarea><br>
+						
+						<p id="textarea07">Correct type 3. id <-> aria-describedby.</p>
+						<textarea aria-describedby="textarea07"></textarea><br>
+				
+					<h4>Aria-labelledby</h4>
+					
+						<label id="textarea08">Correct type 4. id <-> aria-labelledby.</label><br>
+						<textarea aria-labelledby="textarea08"></textarea><br>
+						
+						<div id="textarea09">Correct type 4. id <-> aria-labelledby.</div><br>
+						<textarea aria-describedby="textarea09"></textarea><br>
+						
+						<span id="textarea10">Correct type 4. id <-> aria-labelledby.</span><br>
+						<textarea aria-describedby="textarea10"></textarea><br>
+						
+						<p id="textarea11">Correct type 4. id <-> aria-labelledby.</p>
+						<textarea aria-describedby="textarea11"></textarea><br>
+					
+					<h4>Aria-label</h4>
+					
+						<div>
+							<label>Correct type 5. May be.</label><br>
+							<textarea aria-label='Correct type 5. May be.'></textarea><br>
+						</div>
+						
+						<div>
+							<label>Correct type 5. May be.</label><br>
+							<p><textarea aria-label='Correct type 5. May be.'></textarea><p>
+						</div>
+						
+					<h4>Title</h4>
+						
+						<div>
+							<label>Correct type 6. May be.</label><br>
+							<textarea title='Correct type 6. May be.'></textarea><br>
+						</div>
+						
+						<div>
+							<label>Correct type 6. May be.</label><br>
+							<p><textarea title='Correct type 6. May be.'></textarea><p>
+						</div>
+
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forms Test</title>
+    <link rel="stylesheet" type="text/css" href="/pages_for_test/static/radio.css"><link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+.block{
+  margin: 20px;
+}
+
+.radio1{
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: rgb(201, 201, 201);
+        display: inline-block;
+    }
+
+    
+    .choosen{
+        background-color: rgb(58, 58, 58);
+    }
+    
+    .label{
+        display: inline-block;
+    }
+
+
+</style>
+<body>
+
+    <div class="block">
+        <label for="firstname">First name: </label>
+        <input type="text" name="firstname" id="firstname"><br>
+        <input type="checkbox" name="subscribe" id="subscribe">
+        <label for="subscribe">Subscribe to newsletter</label>
+      </div>
+
+
+      <div  class="block">
+          <label for="search" class="visuallyhidden">Search: </label>
+          <input type="text" name="search" id="search">
+          <button type="button">Search</button>
+      </div>
+
+
+      <div  class="block">
+        <div>
+          <input title="Search" type="text" name="search">
+          <div class="btn btn-success">Search</div>
+        </div>
+      </div>
+
+
+      <div  class="block">
+        <p>Output format</p>
+        <div class="">
+          <div class="radio1" id="radio1_1"></div><div class="label">One </div><br/>
+          <div class="radio1" id="radio1_2"></div><div class="label">Two</div><br/>
+          <div class="radio1" id="radio1_3"></div><div class="label">Three</div><br/>
+          <div class="radio1" id="radio1_4"></div><div class="label">Four</div><br/>
+      </div>
+        </div>
+
+
+        <div  class="block">
+            <div style="float: left;">
+                <p>Shipping Address:</p>
+                <div>
+                    <label for="shipping_name"><span class="visuallyhidden">Shipping </span>Name:</label><br>
+                    <input type="text" name="shipping_name" id="shipping_name">
+                </div>
+                <div>
+                    <label for="shipping_street">Street:</label><br>
+                    <input type="text" name="shipping_street" id="shipping_street">
+                </div>
+                <div>
+                    <label for="shipping_number">Number:</label><br>
+                    <input type="text" name="shipping_number" id="shipping_number">
+                </div>
+                <div>
+                    <label for="shipping_city">City:</label><br>
+                    <input type="text" name="shipping_city" id="shipping_city">
+                </div>
+                <div>
+                    <label for="shipping_zip">ZIP code:</label><br>
+                    <input type="text" name="shipping_zip" id="shipping_zip">
+                    </div>
+            </div>
+            <div style="float: left;">
+                <p>Billing Address:</p>
+                <div>
+                    <label for="billing_name"><span class="visuallyhidden">Billing </span>Name:</label><br>
+                    <input type="text" name="billing_name" id="billing_name">
+                </div>
+                <div>
+                    <label for="billing_street">Street:</label><br>
+                    <input type="text" name="billing_street" id="billing_street">
+                </div>
+                <div>
+                    <label for="billing_number">Number:</label><br>
+                    <input type="text" name="billing_number" id="billing_number">
+                </div>
+                <div>
+                    <label for="billing_city">City:</label><br>
+                    <input type="text" name="billing_city" id="billing_city">
+                </div>
+                <div>
+                    <label for="billing_zip">ZIP code:</label><br>
+                    <input type="text" name="billing_zip" id="billing_zip">
+                </div>
+            </div>
+        </div>
+  
+<script>
+  $('.radio1').click( function(){
+        $('.radio1').removeClass('choosen')
+      $(this).addClass('choosen')
+  } )
+  
+</script>
+</body>
+</html>

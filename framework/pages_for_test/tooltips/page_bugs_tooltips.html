@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  margin: 100px;
+}
+
+.popups {
+  position: relative;
+  margin: 100px;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+</style>
+</head>
+<body style="text-align:center">
+
+<button class="popup" id="dels" onfocus="myFunction()">Bad Tooltip there
+  <span class="popuptext" id="myPopup">bad tooltip</span>
+</button>
+
+<button class="popups">Button without tooltip</button>
+<button class="popups">Button without tooltip</button>
+
+
+<script>
+function myFunction() {
+  document.getElementById("dels").removeAttribute("onfocus");
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
+
+</body>
+</html>

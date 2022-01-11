@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Focus Order Unit Test</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="container">
+
+	<div class="row">
+		<header>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="1">Button1</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="2">Button2</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="3">Button3</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="4">Button4</button>
+		</div>
+		</header>
+		<footer>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="8">Button5</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="7">Button6</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="6">Button7</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="5">Button8</button>
+		</div>
+		</footer>
+		<main>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="9">Button9</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="11">Button10</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="12">Button11</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="10">Button12</button>
+		</div>
+		</main>
+		
+		<div class="w-100"><br></div>
+		
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="13">Button13</button>
+			<br>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="14">Button14</button>
+			<br>
+			<button type="button" class="btn btn-success btn-sm" tabindex="15">Button15</button>
+			<br>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="16">Button16</button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="20">Button17</button>
+			<br>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="19">Button18</button>
+			<br>
+			<button type="button" class="btn btn-success btn-sm" tabindex="18">Button19</button>
+			<br>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="17">Button20</button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="21">Button21</button>
+			<br>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="23">Button22</button>
+			<br>
+			<button type="button" class="btn btn-success btn-sm" tabindex="24">Button23</button>
+			<br>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="22">Button24</button>
+		</div>
+		
+		<div class="w-100"><br></div>
+		
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="25">Button25</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="29">Button26</button>
+			<br>
+			<button type="button" class="btn btn-success btn-sm" tabindex="26">Button27</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="30">Button28</button>
+			<br>
+			<button type="button" class="btn btn-primary btn-sm" tabindex="27">Button29</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="31">Button30</button>
+			<br>
+			<button type="button" class="btn btn-success btn-sm" tabindex="28">Button31</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="32">Button32</button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="33">Button33</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="34">Button34</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="35">Button35</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="36">Button36</button>
+			<br>
+			<button type="button" class="btn btn-primary btn-sm" tabindex="37">Button37</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="38">Button38</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="39">Button39</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="40">Button40</button>
+		</div>
+		<div class="col">
+			<button type="button" class="btn btn-primary btn-sm" tabindex="41">Button41</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="42">Button42</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="43">Button43</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="44">Button44</button>
+			<br>
+			<button type="button" class="btn btn-primary btn-sm" tabindex="46">Button45</button>
+			<button type="button" class="btn btn-secondary btn-sm" tabindex="47">Button46</button>
+			<button type="button" class="btn btn-success btn-sm" tabindex="48">Button47</button>
+			<button type="button" class="btn btn-danger btn-sm" tabindex="45">Button48</button>
+		</div>
+		
+		<div class="w-100"><br></div>
+			
+		<div class="col">
+			<div class="d-flex flex-column bd-highlight mb-3">
+				<div class="d-flex justify-content-start"><button type="button" class="btn btn-primary btn-sm" tabindex="49">Button49</button></div>
+				<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary btn-sm" tabindex="50">Button50</button></div>
+				<div class="d-flex justify-content-end"><button type="button" class="btn btn-success btn-sm" tabindex="52">Button52</button></div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="d-flex flex-column bd-highlight mb-3">
+				<div class="d-flex justify-content-start"><button type="button" class="btn btn-primary btn-sm" tabindex="55">Button53</button></div>
+				<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary btn-sm" tabindex="54">Button54</button></div>
+				<div class="d-flex justify-content-end"><button type="button" class="btn btn-success btn-sm" tabindex="53">Button55</button></div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="d-flex flex-column bd-highlight mb-3">
+				<div class="d-flex justify-content-start"><button type="button" class="btn btn-primary btn-sm" tabindex="56">Button56</button></div>
+				<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary btn-sm" tabindex="58">Button57</button></div>
+				<div class="d-flex justify-content-end"><button type="button" class="btn btn-success btn-sm" tabindex="57">Button58</button></div>
+			</div>
+		</div>
+		<div class="w-100"><br></div>
+		<div class="col">
+			<div class="d-flex flex-column-reverse bd-highlight mb-3">
+				<div class="d-flex justify-content-start"><button type="button" class="btn btn-primary btn-sm" tabindex="61">Button59</button></div>
+				<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary btn-sm" tabindex="60">Button60</button></div>
+				<div class="d-flex justify-content-end"><button type="button" class="btn btn-success btn-sm" tabindex="59">Button61</button></div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="d-flex flex-column-reverse bd-highlight mb-3">
+				<div class="d-flex justify-content-start"><button type="button" class="btn btn-primary btn-sm" tabindex="62">Button62</button></div>
+				<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary btn-sm" tabindex="63">Button63</button></div>
+				<div class="d-flex justify-content-end"><button type="button" class="btn btn-success btn-sm" tabindex="64">Button64</button></div>
+			</div>
+		</div>
+		<div class="col">
+			<div class="d-flex flex-column-reverse bd-highlight mb-3">
+				<div class="d-flex justify-content-start"><button type="button" class="btn btn-primary btn-sm" tabindex="66">Button65</button></div>
+				<div class="d-flex justify-content-center"><button type="button" class="btn btn-secondary btn-sm" tabindex="67">Button66</button></div>
+				<div class="d-flex justify-content-end"><button type="button" class="btn btn-success btn-sm" tabindex="65">Button67</button></div>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+</body>
+</html>

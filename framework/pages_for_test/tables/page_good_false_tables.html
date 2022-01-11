@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблицы</title>
+    <style type="text/css">
+        $fontFamily: "Roboto", "Helvetica Neue", HelveticaNeue, Helvetica-Neue,
+          Helvetica, -apple-system, BlinkMacSystemFont, BBAlpha Sans, "Segoe UI", Arial,
+          "Noto Sans", sans-serif;
+
+        $latoFamily: "Lato", Verdana, Geneva, -apple-system, BlinkMacSystemFont,
+          sans-serif;
+
+        // Colors
+        $darkBlue: #2a3c68;
+        $blue: #4fa2d9;
+        $lightBlue: #8ed8f8;
+        $lightPurple: #ededf6;
+        $lightYellow: #fce6a3;
+        $black: #000;
+        $offBlack: #414042;
+        $gray: #6d6e71;
+        $silver: #bcbec0;
+        $offWhite: #f1f2f2;
+        $white: #fff;
+        $brown: #a29490;
+
+        $gutters: (
+          "lg": 1.6%,
+          "md": 1%,
+          "sm": 0.75%
+        );
+
+        // _helpers.scss
+
+        /// Given a key, safely return the corresponding value from a map.
+        ///
+        /// @param {Map} $map - Map to retrieve a value from.
+        /// @param {String} $key - Name of the map key.
+        ///
+        /// @returns {List} Found value.
+        @function get-value($map, $key) {
+          @if (type-of($map) == "map" or (type-of($map) == "list" and length($map) == 0)) {
+            @if (map-has-key($map, $key)) {
+              @return map-get($map, $key);
+            } @else {
+              @error 'Key: `#{$key}` is not available in `#{$map}`';
+            }
+          } @else {
+            @error '`#{$map}` is not a valid map';
+          }
+        }
+
+        //Creates an :after psuedoclass and applies the float clearing 'clearfix' hack
+        @mixin clearfix($clearVal: both) {
+          &:before,
+          &:after {
+            content: "";
+            display: table;
+          }
+
+          &:after {
+            clear: $clearVal;
+          }
+
+          @if $clearVal != "both" and $clearVal != "left" and $clearVal != "right" {
+            @error "`#{$clearVal}` is not a valid value for the clear property in the clearfix mixin. CTRL+F "#{$clearVal}" to fix.";
+          }
+        }
+
+        // Similar to above, this is a clearfix hack placeholder
+        %clearfix {
+          &:before,
+          &:after {
+            content: "";
+            display: table;
+          }
+
+          &:after {
+            clear: both;
+          }
+        }
+
+        // Takes a given property and a corresponding value and pairs it with a space separated list of
+        // any vendor prefixes desired ("moz webkit" for "-moz- and -webkit-"). If no list of prefixes
+        // is given then the webkit, moz, ms, and o prefixes are applied.
+        @mixin prefix($property, $value, $vendors: moz ms o webkit) {
+          @if $vendors {
+            @each $vendor in $vendors {
+              #{'-' + $vendor + '-' + $property}: $value;
+            }
+          }
+          #{$property}: $value;
+        }
+
+        // Appllies all the necessary flex properties, used on wrappers containing  the flexed items
+        @mixin flex-wrapper {
+          display: -ms-flexbox; // TWEENER - IE 10
+          display: -webkit-flex; // NEW - Chrome
+          display: flex; // NEW, Spec - Opera 12.1, Firefox 20+
+        }
+
+        // Applies the flex property along with all the old vendor prefixes, as well as the width
+        // property for the selector. If not parameters are given flex: 1 and width: 20% are applied
+        @mixin flex-it($flex-num: 1, $width: 20%) {
+          -webkit-flex: $flex-num; // Chrome
+          -ms-flex: $flex-num; // IE 10
+          flex: $flex-num; // NEW, Spec - Opera 12.1, Firefox 20+
+          width: $width; // For old syntax, otherwise collapses.
+        }
+
+        // Takes a number and makes an assignment to that ordinal group
+        @mixin flex-group($ordinal-group: 1) {
+          -ms-flex-order: $ordinal-group; // TWEENER - IE 10
+          -webkit-order: $ordinal-group; // NEW - Chrome
+          order: $ordinal-group; // NEW, Spec - Opera 12.1, Firefox 20+
+        }
+
+        @mixin flex-direction($direction: row) {
+          @if $direction == column or $direction == vertical or $direction == c or $direction == v {
+            -ms-flex-direction: column;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+          } @else {
+            -ms-flex-direction: row;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+          }
+        }
+
+        @mixin flex-wrap($value: wrap) {
+          -ms-flex-wrap: $value;
+          -webkit-flex-wrap: $value;
+          flex-wrap: value;
+        }
+
+        @mixin align-items($alignment: center) {
+          @include prefix(align-items, $alignment, ms webkit);
+        }
+
+        @mixin justify-content($alignment: center) {
+          @include prefix(justify-content, $alignment, ms webkit);
+        }
+
+        // Takes a given value in either 0-1 decimal or 2-100 integer scale and applies
+        // that level of opacity.
+        @mixin opacity($opacity) {
+          @if $opacity > 1 {
+            @if $opacity > 100 {
+              @warn 'Opacity was set to #{$opacity} on an element. Value hsa been changed to the max of 1.';
+              $opacity: 100;
+            }
+            $opacity: $opacity / 100;
+          }
+          filter: alpha(opacity=#{$opacity * 100}); //IE8
+          opacity: $opacity;
+        }
+
+        /// Prevents the user from highlighting anything it is applied to
+        @mixin no-select() {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        // Use for all transforms except for translates in short comma separated notation
+        @mixin transform($transformation) {
+          @include prefix(transform, $transformation, ms webkit);
+        }
+
+        @mixin border-radius($radius: 5px) {
+          background-clip: padding-box; // Stops bg color from leaking outside the border
+          @if $radius == "circle" {
+            border-radius: 50%;
+          } @else {
+            border-radius: $radius;
+          }
+        }
+
+        @mixin fixed-length($length, $dimension: wh, $important-flag: false) {
+          $imp: null;
+          @if $important-flag {
+            $imp: !important;
+          }
+          @if to-lower-case(str-slice($dimension, 1, 2)) == "wh" or to-lower-case(str-slice($dimension, 1, 2)) == "hw" or to-lower-case($dimension) == "both" {
+            height: $length $imp;
+            max-height: $length $imp;
+            min-height: $length $imp;
+            max-width: $length $imp;
+            min-width: $length $imp;
+            width: $length $imp;
+          } @else if to-lower-case(str-slice($dimension, 1, 1)) == "h" {
+            height: $length $imp;
+            max-height: $length $imp;
+            min-height: $length $imp;
+          } @else if to-lower-case(str-slice($dimension, 1, 1)) == "w" {
+            max-width: $length $imp;
+            min-width: $length $imp;
+            width: $length $imp;
+          } @else {
+            @error '\'#{$dimension}\' is not a valid value for dimension in the ' + 'fixed-length mixin. CTRL+F \'#{$dimension}\' to fix.';
+          }
+        }
+
+        @mixin size($width, $height: $width) {
+          @if $width == "max" {
+            $height: 100%;
+            $width: 100%;
+          }
+          height: $height;
+          width: $width;
+        }
+
+        @mixin min-width($threshold) {
+          @media only screen and (min-width: $threshold) {
+            @content;
+          }
+        }
+
+        @mixin max-width($threshold) {
+          @media only screen and (max-width: $threshold) {
+            @content;
+          }
+        }
+
+        @mixin min-to-max-width($min-threshold, $max-threshold) {
+          @media only screen and (max-width: $max-threshold) and (min-width: $min-threshold) {
+            @content;
+          }
+        }
+
+        // Applies a custom scrollbar to the page or to an internal element within the
+        // page. If the scrollbar is not going on the top level of the page then the
+        // $is-internal argument (internal to an element) needs to be the true boolean
+        @mixin scrollbar(
+          $size,
+          $foreground-color,
+          $background-color: mix($foreground-color, white, 50%),
+          $is-internal: false,
+          $curve-radius: 0
+        ) {
+          @if $is-internal {
+            & {
+              // For IE
+              scrollbar-face-color: $foreground-color;
+              scrollbar-track-color: $background-color;
+
+              &::-webkit-scrollbar {
+                width: $size;
+                height: $size;
+                margin-left: 50px;
+
+                &-track {
+                  background: $background-color;
+                  @include border-radius($curve-radius);
+                }
+
+                &-thumb {
+                  background: $foreground-color;
+                  @include border-radius($curve-radius);
+
+                  &:hover {
+                    background: darken($foreground-color, 15%);
+                  }
+                }
+              }
+            }
+          } @else {
+            ::-webkit-scrollbar {
+              width: $size;
+              height: $size;
+
+              &-track {
+                background: $background-color;
+              }
+
+              &-thumb {
+                background: $foreground-color;
+
+                &:hover {
+                  background: darken($foreground-color, 25%);
+                }
+              }
+            }
+
+            body {
+              //For IE
+              scrollbar-face-color: $foreground-color;
+              scrollbar-track-color: $background-color;
+            }
+          }
+        }
+
+        @mixin vert-align($pos: 50%) {
+          @if $pos == middle or $pos == center or $pos == 50 {
+            $pos: 50%;
+          }
+          position: relative;
+          top: $pos;
+          -ms-transform: translateY(-50%);
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+        }
+
+        @mixin absolute-center {
+          margin: 0 auto;
+          @include vert-align;
+          vertical-align: middle;
+        }
+
+        *,
+        *:before,
+        *:after {
+          box-sizing: border-box;
+        }
+
+        html {
+          font-family: sans-serif;
+          font-size: 100%;
+        }
+
+        body {
+          color: $offBlack;
+          font-family: $fontFamily;
+          margin: 0;
+          padding: 0;
+        }
+
+        table {
+          table-layout: fixed;
+          border-collapse: collapse;
+        }
+
+        .mockup-header {
+          margin-top: 100px;
+          text-align: center;
+        }
+
+        .ttzc-table-wrap {
+          margin: 0 auto;
+          text-align: center;
+          width: 100%;
+        }
+
+        .age-row {
+          vertical-align: top;
+        }
+
+        .avgage {
+          margin-top: 10px;
+        }
+
+        .divcell {
+          padding: 0;
+          margin-bottom: 5px;
+        }
+
+        .ttzc-table {
+          border: 2px solid $silver;
+          border-collapse: collapse;
+          margin: 0 auto;
+          max-width: 2000px;
+          min-width: 851px;
+          width: 100%;
+
+          &-title {
+            font-size: 2.5em;
+            margin: 0;
+            padding: 0;
+            color: $darkBlue;
+            text-align: left;
+          }
+        }
+
+        .ttzc-header {
+          border-bottom: 2px solid $silver;
+          background-color: $darkBlue;
+          color: $white;
+          font-size: 16px;
+          font-weight: 400;
+        }
+
+        .ttzc-header {
+          cursor: pointer;
+          height: 85px;
+          font-size: 20px;
+          padding: 10px 0;
+        }
+
+        .ttzc-cell {
+          text-align: center;
+          width: 120px;
+        }
+
+        .ttzc-cell {
+          padding: 10px;
+
+          &:hover {
+            font-weight: 700;
+          }
+        }
+
+        .ttzc-row:not(:last-child) {
+          border-bottom: 1px solid $silver;
+        }
+
+        .cell-empty {
+          color: transparent;
+        }
+
+        .bench-name,
+        .comp-name {
+          width: 120px;
+          margin: 0 auto;
+          word-wrap: normal;
+        }
+
+        .ttzc-cell:first-child,
+        .ttzc-header:first-child {
+          text-align: left;
+          padding-left: 14px;
+        }
+
+        .col-zip {
+          @include fixed-length(120px, w);
+        }
+
+        .ttzc-city {
+          text-align: right !important;
+          padding-right: 5px !important;
+        }
+
+        .ttzc-popgrow {
+          text-align: right !important;
+          padding-right: 14px !important;
+        }
+
+        .ttzc-row:nth-child(even) {
+          background-color: $lightPurple;
+        }
+
+        .ttzc-thead {
+          @include no-select;
+          background-color: $darkBlue;
+        }
+
+        .tile {
+          @include border-radius(15px);
+          background-color: $white;
+          border: 1px solid $silver;
+          box-shadow: 4px 3px 20px $gray;
+          height: 800px;
+          margin: 30px auto;
+          padding: get-value($gutters, sm) get-value($gutters, lg);
+          scrollbar-face-color: $darkBlue;
+          scrollbar-track-color: $blue;
+          width: 80vw;
+
+          &::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+
+            &-track {
+              background: rgba($blue, 0.5);
+              border-radius: 5px;
+              box-shadow: inset 0 0 5px lighten($lightPurple, 10%);
+            }
+
+            &-thumb {
+              background: rgba($darkBlue, 0.5);
+              border-radius: 5px;
+
+              &:hover {
+                background: darken(rgba($darkBlue, 0.8), 5%);
+              }
+
+              &:active {
+                background: darken(rgba($darkBlue, 0.9), 10%);
+                box-shadow: inset 0 0 5px lighten($lightPurple, 10%);
+              }
+            }
+          }
+
+          @include min-width(3800px) {
+            width: 60vw;
+          }
+
+          &-header {
+            color: $darkBlue;
+            font-family: $latoFamily;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+
+            @include min-width(3800px) {
+              text-align: center;
+            }
+          }
+
+          &-content {
+            @extend %clearfix;
+            height: 99%;
+            margin: 0 auto;
+            width: 90%;
+          }
+        }
+
+        .ttzc-tile {
+          height: auto;
+          padding-bottom: 25px;
+
+          @include max-width(1279px) {
+            overflow-x: auto;
+          }
+        }
+
+        .ttzc-tbody {
+          cursor: default;
+          .ttzc-cell {
+            &:nth-child(2) {
+              text-align: right;
+            }
+          }
+
+          .ttzc-row:hover {
+            background-color: $blue;
+
+            .ttzc-cell {
+              color: $white;
+            }
+          }
+        }
+
+        .ttzc-tfoot {
+          background-color: $brown;
+          cursor: default;
+          font-weight: 700;
+
+          &:hover {
+            background-color: $darkBlue;
+
+            .ttzc-cell {
+              color: $white;
+
+              &:not(.ttzc-avgs):hover {
+                color: $lightYellow;
+              }
+            }
+          }
+        }
+
+        .ttzc-avgs {
+          font-variant: small-caps;
+          letter-spacing: 2px;
+        }
+
+        col-zip {
+          border-right: 2px solid black !important;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="tile ttzc-tile">
+  <div class="tile-content">
+    <div class="ttzc-table-wrap">
+      <table class="ttzc-table" id="ttzc_table">
+        <caption>
+          <h2 class="ttzc-table-title">Top Ten ZIP Codes</h2>
+        </caption>
+        <colgroup>
+          <col class="col-zip">
+          <col class="col-city">
+          <col class="col-state">
+          <col class="col-pcentvis">
+          <col class="col-cumpcentvis">
+          <col class="col-tothouse">
+          <col class="col-totpop">
+          <col class="col-avghouseinc">
+          <col class="col-popgrow">
+        </colgroup>
+        <thead class="ttzc-thead">
+          <tr class="ttzc-row">
+            <th class="ttzc-header ttzc-zip" scope="col" title="Click to sort numerically">ZIP Code</th>
+            <th class="ttzc-header ttzc-city" scope="col" title="Click to sort alphabetically">City</th>
+            <th class="ttzc-header ttzc-state" scope="col" title="Click to sort alphabetically">State</th>
+            <th class="ttzc-header ttzc-pcentvis" scope="col" title="Click to sort numerically">Percent Visits</th>
+            <th class="ttzc-header ttzc-cumpcentvis" scope="col" title="Click to sort numerically">Cumulative<br>Percent<br>Visits</th>
+            <th class="ttzc-header ttzc-tothouse" scope="col" title="Click to sort numerically">Total<br>Households</th>
+            <th class="ttzc-header ttzc-totpop" scope="col" title="Click to sort numerically">Total<br>Population</th>
+            <th class="ttzc-header ttzc-avghouseinc" scope="col" title="Click to sort numerically">Avg<br>Household<br>Income</th>
+            <th class="ttzc-header ttzc-popgrow" scope="col" title="Click to sort numerically">Population<br>Growth</th>
+          </tr>
+        </thead>
+        <tbody class="ttzc-tbody">
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01736</td>
+            <td class="ttzc-cell ttzc-city">Southwick</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">32.8%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">32.8%</td>
+            <td class="ttzc-cell ttzc-tothouse">3,792</td>
+            <td class="ttzc-cell ttzc-totpop">9,629</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$85,876</td>
+            <td class="ttzc-cell ttzc-popgrow">1.1%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01739</td>
+            <td class="ttzc-cell ttzc-city">Winchendon</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">5.6%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">38.4%</td>
+            <td class="ttzc-cell ttzc-tothouse">3,929</td>
+            <td class="ttzc-cell ttzc-totpop">11,444</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$73,256</td>
+            <td class="ttzc-cell ttzc-popgrow">3.6%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01741</td>
+            <td class="ttzc-cell ttzc-city">Hudson</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">32.8%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">32.8%</td>
+            <td class="ttzc-cell ttzc-tothouse">3,792</td>
+            <td class="ttzc-cell ttzc-totpop">9,629</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$85,876</td>
+            <td class="ttzc-cell ttzc-popgrow">2.2%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01220</td>
+            <td class="ttzc-cell ttzc-city">Adams</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">16.6%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">31.1%</td>
+            <td class="ttzc-cell ttzc-tothouse">4,444</td>
+            <td class="ttzc-cell ttzc-totpop">8,654</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$111,123</td>
+            <td class="ttzc-cell ttzc-popgrow">4.2%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01116</td>
+            <td class="ttzc-cell ttzc-city">Longmeadow</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">22.8%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">35.5%</td>
+            <td class="ttzc-cell ttzc-tothouse">44,442</td>
+            <td class="ttzc-cell ttzc-totpop">11,654</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$89,543</td>
+            <td class="ttzc-cell ttzc-popgrow">1.8%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01338</td>
+            <td class="ttzc-cell ttzc-city">Buckland</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">18.8%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">25.5%</td>
+            <td class="ttzc-cell ttzc-tothouse">6,792</td>
+            <td class="ttzc-cell ttzc-totpop">16,629</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$71,776</td>
+            <td class="ttzc-cell ttzc-popgrow">1.8%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">01080</td>
+            <td class="ttzc-cell ttzc-city">Three Rivers</td>
+            <td class="ttzc-cell ttzc-state">MA</td>
+            <td class="ttzc-cell ttzc-pcentvis">19.2%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">29.9%</td>
+            <td class="ttzc-cell ttzc-tothouse">4,792</td>
+            <td class="ttzc-cell ttzc-totpop">9,999</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$74,489</td>
+            <td class="ttzc-cell ttzc-popgrow">1.6%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">29412</td>
+            <td class="ttzc-cell ttzc-city">Charleston</td>
+            <td class="ttzc-cell ttzc-state">SC</td>
+            <td class="ttzc-cell ttzc-pcentvis">19.2%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">15.3%</td>
+            <td class="ttzc-cell ttzc-tothouse">2,991</td>
+            <td class="ttzc-cell ttzc-totpop">11,534</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$66,776</td>
+            <td class="ttzc-cell ttzc-popgrow">1.1%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">30301</td>
+            <td class="ttzc-cell ttzc-city">Atlanta</td>
+            <td class="ttzc-cell ttzc-state">GA</td>
+            <td class="ttzc-cell ttzc-pcentvis">41.2%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">19.5%</td>
+            <td class="ttzc-cell ttzc-tothouse">22,792</td>
+            <td class="ttzc-cell ttzc-totpop">45,335</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$89,645</td>
+            <td class="ttzc-cell ttzc-popgrow">1.8%</td>
+          </tr>
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip">29294</td>
+            <td class="ttzc-cell ttzc-city">Chicopee</td>
+            <td class="ttzc-cell ttzc-state">FL</td>
+            <td class="ttzc-cell ttzc-pcentvis">29.1%</td>
+            <td class="ttzc-cell ttzc-cumpcentvis">18.8%</td>
+            <td class="ttzc-cell ttzc-tothouse">6,792</td>
+            <td class="ttzc-cell ttzc-totpop">9,629</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$85,876</td>
+            <td class="ttzc-cell ttzc-popgrow">1.1%</td>
+          </tr>
+        </tbody>
+        <tfoot class="ttzc-tfoot">
+          <tr class="ttzc-row">
+            <td class="ttzc-cell ttzc-zip cell-empty"></td>
+            <td class="ttzc-cell ttzc-city ttzc-avgs">Averages</td>
+            <td class="ttzc-cell cell-empty" colspan="3"></td>
+            <td class="ttzc-cell ttzc-tothouse">7,411</td>
+            <td class="ttzc-cell ttzc-totpop">15,497</td>
+            <td class="ttzc-cell ttzc-avghouseinc">$117,204</td>
+            <td class="ttzc-cell ttzc-popgrow">3.9%</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

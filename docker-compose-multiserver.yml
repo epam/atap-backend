@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  worker_longlived:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==worker"
+
+  nginx:
+    volumes:
+      - /var/log/nginx:/var/log/nginx
+      - /etc/nginx/cert:/etc/nginx/cert

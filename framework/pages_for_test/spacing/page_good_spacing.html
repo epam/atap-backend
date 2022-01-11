@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head>
+  <title>Text Spacing PASS</title>
+  <style>
+  #spacing { font-size: 30px; }
+  #test { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="test">text to test</div>
+  </div>
+
+  <h2>Some other text</h2>
+  <button id="spacing" onclick="toggleSpacing(window);">on / off text spacing rules</button>
+  <div id="sample"></div>
+  <div>
+  &nbsp;
+  <div>
+    <p>Some more</p>
+    <input type="text" placeholder="To be done?"></input>
+    <br>
+    <p>Surely, no</p>
+    &nbsp;
+  </div>
+    <textarea name="areaOfText" cols="14" rows="10">
+      But be careful with mE
+    </textarea>
+  </div>
+
+<script>
+  var toggleSpacing = function () {
+      /* bookmarklet from https://github.com/drewlee/1412bookmarklet */
+      var name = 'WCAG 2.1 1.4.12 bookmarklet', style, sheet;
+      var spacingRules = [
+          '*{line-height:1.5em!important;}',
+          '*{letter-spacing:0.12em!important;}',
+          '*{word-spacing:0.16em!important;}',
+          '*{margin-bottom:2em!important;}'];
+
+      if (typeof window[name] !== 'undefined') {
+          document.head.removeChild(window[name].instance);
+          delete window[name];
+      } else {
+          style = document.createElement('style'),
+          window[name] = {};
+          window[name].instance = style;
+          document.head.appendChild(style);
+          spacingRules.forEach(rule => style.sheet.insertRule(rule));
+      }
+  };
+</script>
+</body></html>

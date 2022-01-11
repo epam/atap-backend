@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+            <blockquote>So for the Color table and ColorProduct table would it look like this?y for me to understand without having someone sitting next to me guiding me through it.&nbsp;
+</blockquote>
+<br>
+Not quite; what you'd have would be this:<br>
+<br>
+Table Name: Products<br>
+<br>
+    <div>
+        ProductID&nbsp;&nbsp;&nbsp; ProductName<br>
+        42&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Men's Wicking Polo<br>
+    </div>
+<br>
+Table Name: Colors<br>
+<br>
+Color<br>
+Red<br>
+Blue<br>
+<br>
+Table Name: Sizes<br>
+<br>
+Size<br>
+S<br>
+M<br>
+L<br>
+XL<br>
+<br>
+Table Name: ProductColors<br>
+<br>
+    <div>
+        ProductID&nbsp;&nbsp;&nbsp; Color<br>
+        42&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; Red<br>
+        42&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Blue<br>
+    </div>
+<br>
+Table Name: ProductSizes<br>
+<br>
+    <div>
+        ProductID&nbsp;&nbsp;&nbsp; Size<br>
+        42&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; S<br>
+        42&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; M<br>
+    </div>
+<br>
+Table Name: Inventory<br>
+<br>
+<div>
+    ProductID&nbsp;&nbsp;&nbsp; Color&nbsp;&nbsp;&nbsp; Size&nbsp;&nbsp;&nbsp; StockInHand<br>
+    42&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Red&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 15<br>
+    42&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Red&nbsp;&nbsp;&nbsp;&nbsp; M&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 8<br>
+    42&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; Blue&nbsp;&nbsp; &nbsp; M&nbsp;&nbsp; &nbsp; &nbsp; 11<br>
+    42&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Blue&nbsp;&nbsp; &nbsp; L&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5<br>
+</div>
+<br>
+These rows mean that there are 15 small red men's wicking polo shirts in stock, 8 medium red, 11 medium blue and 5 large blue.&nbsp; Further rows would represent other colors and sizes of men's wicking polo shirts stocked and the same would be true of other products
+ represented in the Products table and for which there would also be rows in the ProductColors and ProductSizes tables which would represent the colors and sizes appropriate to each product.&nbsp; Note that there must be at least one row in each of these tables,
+ so if we take your example of Crinkle Cut Paper, for which we'll assume a ProductId of 66, there would be one row in Products for this, two rows in ProductColors and, as this product apparently does not have sizes a row in ProductSizes:<br>
+<br>
+<div>
+    ProductID&nbsp;&nbsp;&nbsp; Size<br>
+    66&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; N/A<br>
+</div>
+<br>
+The Sizes table would have a row with a value N/a.&nbsp; The ProductSizes table is modelling a many-to-many relationship type between Products and Sizes.&nbsp; It's key is a composite one of the two columns because, in combination, these must be distinct within the table,
+ e.g. you can only have one row with a ProductID of 42 and a Size of M.&nbsp; Even if you were to introduce an autonumber column ProductSizeID as the primary key the other two columns would still be a key, what's known as a candidate key, so would have to be included
+ in a unique index to prevent duplicates.<br>
+<br>
+What you have here is a set of tables. each of which represents and entity type, e.g. products or colors, but some of those entity types are relationship types between other entity type, e.g. ProductColors.&nbsp; The tables are normalized, which is the formal process
+ for eliminating redundancy by 'decomposing' a table which includes redundancy in to two or more related tables.&nbsp; Redundancy is when the same 'fact' is stated more than once in a table, in separate rows, or in rows in different tables.&nbsp; This allows for inconsistent
+ data to be entered and puts the integrity of the database at risk.<br>
+<br>
+It's important to understand that the entity type and relationship types in a database have an existence in the real world, because a relational database is a model of the underlying reality.&nbsp; Designing a relational database is essentially the identification
+ of these real world entity types and relationship types and representing them as related tables.&nbsp; If the database accurately models the reality it will behave in the same way as the reality being modelled, which is of course exactly what we want it to do.&nbsp;
+ So, the importance of getting the model right cannot be overstressed.&nbsp; Once you've done that the interface in terms of the forms and subforms required will by and large be self evident.<br>
+<br>
+Although it has nothing to do with your specific requirement you might find it helpful to take a look at the file ParentActivities.zip in my SkyDrive folder to which I posted a link earlier.&nbsp; This illustrates a basic many-to-many relationship type, between
+ parents and activities (it was originally produced for a user wanting this) and how that relationship type is modelled by tables, and how this is represented in a form/subform.&nbsp; These are the basic building blocks you'll need to use in develop[ping your own
+ application.<br>
+<br>
+        </div>
+</body>
+</html>

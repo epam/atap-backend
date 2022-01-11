@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<script type="text/javascript">
+    function addLabel () {
+        let text_label = document.createElement('div');
+        let select_label = document.createElement('div');
+        text_label.innerHTML = "<strong> Too long data.</strong> <label id='passworderr' for='password'>It's not password.</label>"
+        select_label.innerHTML = "<strong> Too bad password.</strong> <label id='optionerr' for='complexity'>Bad choice</label>";
+        document.body.append(text_label);
+        document.body.append(select_label);
+    }
+</script>
+<label for="password">Enter your password:</label><br>
+<textarea style="resize: none;"  id="password" name="password" autocomplete="password"
+    aria-describedby="passworderr"></textarea>
+<p></p>
+<label for="complexity">Password complexity</label>
+<p></p>
+<select id="complexity" name="password.complexity" aria-label="polite"><option value=""
+    aria-describedby="option error">None</option>
+    <option value="Bad">Bad</option>
+    <option value="Weak">Weak</option>
+    <option value="Unsatisfactory">Unsatisfactory</option>
+</select>
+<p></p>>
+<button type='submit' onclick="addLabel()"> OK </button>
+</body>
+</html>

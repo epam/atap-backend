@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blinking Background Demo</title>
+    <style>
+      @keyframes blinking {
+        0%{
+          background-color: #ffffff;
+          border: 5px solid #ffffff;
+        }
+        /* YOU CAN ADD MORE COLORS IN THE KEYFRAMES IF YOU WANT
+        50%{
+          background-color: #808080;
+          border: 5px solid #808080;
+        }
+        */
+        100%{
+          background-color: #000000;
+          border: 5px solid #000000;
+        }
+      }
+      #demo{
+        width: 1920px;
+        height: 1200px;
+        /* NAME | TIME | ITERATION */
+        animation: blinking 0.1s infinite;
+      }
+    </style>
+  </head>
+  <body>
+  <div>
+      <h1>TEST|TEST|TEST|TEST</h1>
+  </div>
+  <br>
+
+  <div>
+      <h1>TEST|TEST|TEST|TEST</h1>
+  </div>
+  <br>
+
+  <div>
+      <h1>TEST|TEST|TEST|TEST</h1>
+  </div>
+  <br>
+
+  <div>
+      <h1>TEST|TEST|TEST|TEST</h1>
+  </div>
+  <br>
+
+
+
+  <div id="demo">
+
+  </div>
+
+  </body>
+</html>

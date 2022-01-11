@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	
+	<title>Title</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style> 
+.checkbox{
+        width: 15px;
+        height: 15px;
+        background-color: rgb(201, 201, 201);
+        display: inline-block;
+}
+    
+.checkbox2{
+        width: 15px;
+        height: 15px;
+        background-color: rgb(255, 0, 0);
+        display: inline-block;
+}
+
+.choosen{
+        background-color: rgb(58, 58, 58);
+    }
+</style>
+
+</head>
+<body>
+    <fieldset>
+        <legend>Try these checkboxes:</legend>
+        <label id="label_1">first</label><br>           
+        <div role="checkbox" class="checkbox" aria-labelledby="label_1" aria-checked="false" tabindex="0">
+        </div><br>
+        <label>
+        <input type="checkbox"/>
+        second
+        </label><br>
+        <label id="label_3">third</label><br>           
+		<div role="checkbox" class="checkbox2" aria-labelledby="label_3" aria-checked="false" tabindex="0">
+        </div><br>
+    </fieldset>
+<script>
+  $('.checkbox').click( function(){
+      $(this).toggleClass('choosen')
+  } )
+  $('.checkbox3').click( function(){
+      $(this).toggleClass('choosen')
+  } )
+</script>
+</body>
+</html>

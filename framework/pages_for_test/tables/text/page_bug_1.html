@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+            Your Inventory table is not correctly normalized as it includes redundancies.&nbsp; You need to decompose it into set of related tables like this:<br>
+<br>
+Products:<br>
+....ProductID (PK)<br>
+....ProductName<br>
+....SupplierID<br>
+....etc.<br>
+<br>
+Colors<br>
+....Color (PK)<br>
+<br>
+Sizes<br>
+....Size (PK)<br>
+<br>
+You have a many-to-many relationship type between Products and Colors, and between Products and Sizes.&nbsp; A many-to-many relationship type is modelled by a table which resolves the relationship type into two or more one-to-many relationship types.&nbsp; So to model
+ the relationship type between Products and Colors you'd have a table:<br>
+<br>
+ProductColors<br>
+....ProductID (FK)<br>
+....Color (FK)<br>
+<br>
+and for that between Products and Sizes:<br>
+<br>
+ProductSizes<br>
+....ProductID (FK)<br>
+....Size (FK)<br>
+<br>
+The primary key of each of these tables is a composite one made up of the two columns in each case; the tables are said to ne 'all key'.&nbsp; These two tables are themselves related in a many-to-many relationship type, which is modelled by a further table.&nbsp; It
+ is this table which is the Inventory table if you are simply recording the current stock position and storage location for each product:<br>
+<br>
+Inventory<br>
+....ProductID (FK)<br>
+....Color (FK)<br>
+....Size (FK)<br>
+....StockInHand<br>
+....StorageLocation<br>
+<br>
+The primary key of this table is again a composite one, this time made up of the three columns ProductID, Color, and Size,&nbsp; As no part of a primary key can be Null, each product must have both a colour and a size.&nbsp; This won't be appropriate in some cases of
+ course, so in the both the Sizes and Colors table you must include a row with a value N/A or similar.&nbsp; The other imporatnt point is that ProductID and Color on the one hand, and ProductID and Size on the other hand are each composite foreign keys referencing
+ the composite primary keys of ProductColors and ProductSizes respectively, so the relationships with thse tables should be on the two columns in each case.<br>
+<br>
+You might be wondering why ProductSizes and ProductColors tables are needed at all.&nbsp; It would be possible to operate the database without these tables, with the Inventory table modelling a ternary (3-way) many-to-many relationship type between Products, Colors
+ and Sizes, but it would be perfectly possible to insert a row into this table which included a size or colour inappropriate to the product in question.<br>
+<br>
+If we take Men's Wicking Polo as an example, there would be one row for this in Products.&nbsp; If this is available in S, M and L sizes there would be three rows in ProductSizes with the same ProductID value, 42 say, and S, M and L in the Size column.&nbsp; If it is
+ available in red and blue in the S and M sizes, but only in blue in the L size, then in the Inventory table there would be the following rows:<br>
+<br>
+    <div>
+        42&nbsp;&nbsp; &nbsp;S&nbsp;&nbsp; &nbsp;Red<br>
+        42&nbsp;&nbsp; &nbsp;S&nbsp;&nbsp; &nbsp;Blue<br>
+        42&nbsp;&nbsp; &nbsp;M&nbsp;&nbsp; Red<br>
+        42&nbsp;&nbsp;&nbsp; M&nbsp;&nbsp; Blue<br>
+        42&nbsp;&nbsp; &nbsp;L&nbsp;&nbsp; &nbsp;Blue<br>
+    </div>
+<br>
+In each row would be the current stock in hand, storage location etc of each in other columns in the table.<br>
+<br>
+This is a very simple inventory system where the quantities in stock are updated as items are added to or removed from stock.&nbsp; In most cases however, the stock level would not be stored, but computed on the basis of individual transactions.&nbsp; The current stock
+ in hand is simply the sum of the quantities per item added to stock less the sum of the quantities per item removed from stock.&nbsp; You'll find a very simple example of this which I put together a while ago for another user here as Inventory.zip in my public
+ databases folder at:<br>
+<br>
+<a href="https://skydrive.live.com/?cid=44CC60D7FEA42912&amp;id=44CC60D7FEA42912!169" target="_blank" rel="noreferrer nofollow">https://skydrive.live.com/?cid=44CC60D7FEA42912&amp;id=44CC60D7FEA42912!169</a><br>
+<br>
+As well as purchases and sales you'd need to take account of other things such as stock written off or adjustments as a result of a stock-take.&nbsp; In real life inventory databases can be very complex.<br>
+<br>
+</div>
+</body>
+</html>

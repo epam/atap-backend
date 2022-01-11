@@ -1,0 +1,562 @@
+{
+    "1.1.1": {
+        "Name": "Non-text Content",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#text-equiv-all",
+        "SUP": "Web page provides text alternatives for all non-text content.",
+        "DNS": {
+            "TextAlternative": "Some images do not have a text alternative",
+            "NonTextName": "Some elements accepting user input do not have a text alternative",
+            "Captcha": "Some captcha elements do not have a text alternative",
+            "NonTextDecorative": "Some decorative elements are not hidden from assistive technologies. However there are problems in an element attributes"
+        },
+        "NA": "There is no non-text content on the web page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.2.1": {
+        "Name": "Audio-only and Video-only (Prerecorded)",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#media-equiv-av-only-alt",
+        "SUP": "Video and audio content on the page is captioned properly",
+        "DNS": {
+            "AudioOnlyAlternative": "Some audio content does not have captions",
+            "VideoOnlyAlternative": "Some video content does not have captions"
+        },
+        "NA": "There is no video or audio content on the web page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.2.2": {
+        "Name": "Captions (Prerecorded)",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#media-equiv-captions",
+        "SUP": "Captions are provided for all prerecorded audio content",
+        "DNS": {
+            "Captions": "Some prerecorded audio content is not supplied with captions"
+        },
+        "NA": "There is no audio or video content on the web page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.2.3": {
+        "Name": "Audio Description or Media Alternative (Prerecorded)",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#media-equiv-audio-desc",
+        "SUP": "An alternative for time-based media or audio description of the prerecorded video content is provided for synchronized media",
+        "DNS": {
+            "Alternative": "Some video content is not provided with an alternative for time-based media or audio description"
+        },
+        "NA": "There is no prerecorded video content",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.2.4": {
+        "Name": "Captions (Live)",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#media-equiv-real-time-captions",
+        "SUP": "",
+        "DNS": {},
+        "NA": "http://www.w3.org/TR/WCAG20/#media-equiv-real-time-captions",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.2.5": {
+        "Name": "Audio Description (Prerecorded)",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#media-equiv-audio-desc-only",
+        "SUP": "Audio description is provided for all prerecorded video content in synchronized media.",
+        "DNS": {
+            "Alternative": "Some video content is not provided with audio description"
+        },
+        "NA": "There are no prerecorded video content",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.3.1": {
+        "Name": "Info and Relationships",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#content-structure-separation-programmatic",
+        "SUP": "Information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text",
+        "DNS": {
+            "NoLabel": "Some elements which require user input are not supplied with visible labels",
+            "NotWorks": "Some elements which like edit box, don't works",
+            "Purpose": "Purpose of some elements is different from its semantic markup",
+            "Table": "Some table elements have incorrect semantic markup",
+            "Markup": "Some web page elements have incorrect semantic markup",
+            "AriaMarkup": "Some web page elements have incorrect ARIA-attributes"
+        },
+        "NA": "There is no such elements on the web page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.3.2": {
+        "Name": "Meaningful Sequence",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#content-structure-separation-sequence",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.3.3": {
+        "Name": "Sensory Characteristics",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#content-structure-separation-understanding",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.3.4": {
+        "Name": "Orientation",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#orientation",
+        "SUP": "Web page is viewable in any orientation",
+        "DNS": {
+            "CssLock": "Web page orientation is locked by CSS"
+        },
+        "NA": "Unable to determine if orientation changes",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.3.5": {
+        "Name": "Identify Input Purpose",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#identify-input-purpose",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.1": {
+        "Name": "Use of Color",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#visual-audio-contrast-without-color",
+        "SUP": "Color is not used as the only visual means of conveying information",
+        "DNS": {
+            "LinkColor": "Some links are only distinguishable from surrounding text by color"
+        },
+        "NA": "There are no elements that might be checked for this criterion",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.2": {
+        "Name": "Audio Control",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#visual-audio-contrast-dis-audio",
+        "SUP": "",
+        "DNS": {
+            "Audio": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.3": {
+        "Name": "Contrast (Minimum)",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast",
+        "SUP": "",
+        "DNS": {
+            "Contrast": "Some elements have insufficient contrast to the background"
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.4": {
+        "Name": "Resize text",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#visual-audio-contrast-scale",
+        "SUP": "Text scales properly when zoomed",
+        "DNS": {
+            "Scaling": "Text cannot be scaled or zoomed"
+        },
+        "NA": "There is no text on the Web page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.5": {
+        "Name": "Images of Text",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#visual-audio-contrast-text-presentation",
+        "SUP": "",
+        "DNS": {
+            "TextImage": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.10": {
+        "Name": "Reflow",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#reflow",
+        "SUP": "",
+        "DNS": {
+            "Collision": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.11": {
+        "Name": "Non-text Contrast",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#non-text-contrast",
+        "SUP": "",
+        "DNS": {
+            "Contrast": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.12": {
+        "Name": "Text Spacing",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#text-spacing",
+        "SUP": "Text spacing adheres to the guidelines",
+        "DNS": {
+            "StylesheetSpasing": "Inline text spacing is not adjustable with custom stylesheets"
+        },
+        "NA": "There is no text that support style properties described in criterion",
+        "Conformancelevel": "FULL-AA"
+    },
+    "1.4.13": {
+        "Name": "Content on Hover or Focus",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#content-on-hover-or-focus",
+        "SUP": "",
+        "DNS": {
+            "TooltipClosing": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.1.1": {
+        "Name": "Keyboard",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#keyboard-operation-keyboard-operable",
+        "SUP": "All functionality of the content is operable through a keyboard interface without requiring specific timings for individual keystrokes",
+        "DNS": {
+            "FocusMoving": "Keyboard navigation is not supported",
+            "DropdownActivation": "The dropdown can not be expanded by keyboard",
+            "DropdownNavigation": "Navigation through a dropdown items is not supported",
+            "SelectorConfirmation": "The selection option cannot be chosen using keyboard",
+            "FocusLoop": "Navigation through a group of elements is not looped",
+            "ServerSideMap": "Server-side image map is used",
+            "SliderByKeyboard": "Some elements such as sliders do not work when used keyboard"
+        },
+        "NA": "There are no elements that might be checked for this criterion",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.1.2": {
+        "Name": "No Keyboard Trap",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#keyboard-operation-trapping",
+        "SUP": "",
+        "DNS": {
+            "NoTrap": "",
+            "CorrectModal": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.1.4": {
+        "Name": "Character Key Shortcuts",
+        "Level": "A",
+        "Link": "https://www.w3.org/TR/WCAG21/#character-key-shortcuts",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.2.1": {
+        "Name": "Timing Adjustable",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#time-limits-required-behaviors",
+        "SUP": "Time limits meet the guidelines",
+        "DNS": {
+            "Refresh": "Page reloads periodically",
+            "Countdown": "Page has element that refreshing every 3 sec element"
+        },
+        "NA": "There is no time-limited content on the page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.2.2": {
+        "Name": "Pause, Stop, Hide",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#time-limits-pause",
+        "SUP": "",
+        "DNS": {
+            "StopButton": "There is scrolling content which cannot be paused, stopped or hidden by the user",
+            "Blink": "There are <blink> elements which cannot be paused, stopped or hidden by the user",
+            "Marquee": "There are <marque> elements which cannot be paused, stopped or hidden by the user",
+            "Flicker": "There are animated images over 5 seconds long that can't be paused or stopped",
+            "Size": "Size flickering image on page more than 25% off size page",
+            "Flicker_page": "On"
+        },
+        "NA": "There is no moving, scrolling or auto-updating content",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.3.1": {
+        "Name": "Three Flashes or Below Threshold",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#seizure-does-not-violate",
+        "SUP": "",
+        "DNS": {
+            "Flash": "Web page contain images that flash more than three times in any one second period"
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.1": {
+        "Name": "Bypass Blocks",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-skip",
+        "SUP": "A mechanism is available to bypass blocks of content that are repeated on multiple Web pages",
+        "DNS": {
+            "BypassMain": "Web page does not have a <main> landmark for bypass mechanism",
+            "BypassTitle": "Some elements used in the bypass mechanism have invalid attributes"
+        },
+        "NA": "No content is repeated on multiple Web pages",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.2": {
+        "Name": "Page Titled",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-title",
+        "SUP": "Web pages have titles that describe topic or purpose",
+        "DNS": {
+            "Title": "Page titles do not describe the content",
+            "Heading": "Headings do not describe the content"
+        },
+        "NA": "There are no page headings or titles",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.3": {
+        "Name": "Focus Order",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-focus-order",
+        "SUP": "",
+        "DNS": {
+            "Order": "User interface elements on the Web Page have incorrect focus order"
+        },
+        "NA": "There are no user interface elements on the Web Page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.4": {
+        "Name": "Link Purpose (In Context)",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-refs",
+        "SUP": "Web page provides meaningful links",
+        "DNS": {
+            "PurposeInContext": "Some links does not have a description"
+        },
+        "NA": "There are no links on the page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.5": {
+        "Name": "Multiple Ways",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-mult-loc",
+        "SUP": "",
+        "DNS": {
+            "MultipleWays": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.6": {
+        "Name": "Headings and Labels",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-descriptive",
+        "SUP": "Headings and labels are descriptive throughout the web page.",
+        "DNS": {
+            "PurposeUI": "Some elements do not have a heading or a label or its purpose is uninformative"
+        },
+        "NA": "There are no elements with headings or labels",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.4.7": {
+        "Name": "Focus Visible",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#navigation-mechanisms-focus-visible",
+        "SUP": "",
+        "DNS": {
+            "FocusSize": "Some elements have scrollable content not accessible by keyboard"
+        },
+        "NA": "There are no keyboard operable user interface elements",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.5.1": {
+        "Name": "Pointer Gestures",
+        "Level": "A",
+        "Link": "https://www.w3.org/TR/WCAG21/#pointer-gestures",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.5.2": {
+        "Name": "Pointer Cancellation",
+        "Level": "A",
+        "Link": "https://www.w3.org/TR/WCAG21/#pointer-cancellation",
+        "SUP": "",
+        "DNS": {
+            "PointerCancellation": "Some elements don't have pointer cancellation functionality"
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.5.3": {
+        "Name": "Label in Name",
+        "Level": "A",
+        "Link": "https://www.w3.org/TR/WCAG21/#label-in-name",
+        "SUP": "Label names match the content presented visually",
+        "DNS": {
+            "Mismatch": "Label names do not match the content presented visually"
+        },
+        "NA": "There are no labels on the page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "2.5.4": {
+        "Name": "Motion Actuation",
+        "Level": "A",
+        "Link": "https://www.w3.org/TR/WCAG21/#motion-actuation",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.1.1": {
+        "Name": "Language of Page",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#meaning-doc-lang-id",
+        "SUP": "The default human language of each Web page can be programmatically determined",
+        "DNS": {
+            "Lang": "<html> element does not have a lang attribute",
+            "LangValid": "<html> element has an invalid lang attribute value",
+            "LangMismatch": "<html> elements with lang and xml:lang have different base language"
+        },
+        "NA": "Lang attribute is not required",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.1.2": {
+        "Name": "Language of Parts",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#meaning-other-lang-id",
+        "SUP": "Languages different from the page language are marked correctly",
+        "DNS": {
+            "LangValid": "Some text elements have invalid 'lang' attribute"
+        },
+        "NA": "There are no elements with content in a different language",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.2.1": {
+        "Name": "On Focus",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#consistent-behavior-receive-focus",
+        "SUP": "",
+        "DNS": {
+            "UnfocusClosing": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.2.2": {
+        "Name": "On Input",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change",
+        "SUP": "",
+        "DNS": {
+            "Disorientation": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.2.3": {
+        "Name": "Consistent Navigation",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#consistent-behavior-consistent-locations",
+        "SUP": "",
+        "DNS": {
+            "Disorientation": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.2.4": {
+        "Name": "Consistent Identification",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#consistent-behavior-consistent-functionality",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.3.1": {
+        "Name": "Error Identification",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#minimize-error-identified",
+        "SUP": "",
+        "DNS": {
+            "ErrorIdentification": "Some elements don't have alert or have alert with bad description"
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.3.2": {
+        "Name": "Labels or Instructions",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#minimize-error-cues",
+        "SUP": "Labels or instructions are provided when content requires user input",
+        "DNS": {
+            "MultipleLable": "Form fields have duplicate labels"
+        },
+        "NA": "There are no elements which require user input",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.3.3": {
+        "Name": "Error Suggestion",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#minimize-error-suggestions",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "3.3.4": {
+        "Name": "Error Prevention (Legal, Financial, Data)",
+        "Level": "AA",
+        "Link": "http://www.w3.org/TR/WCAG20/#minimize-error-reversible",
+        "SUP": "",
+        "DNS": {
+            "Disable": ""
+        },
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    },
+    "4.1.1": {
+        "Name": "Parsing",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#ensure-compat-parses",
+        "SUP": "No elements have duplicate IDs",
+        "DNS": {
+            "DuplicateId": "Some user interface elements have a non-unique ID",
+            "DuplicateIdValue": "Some common elements have a non-unique ID",
+            "DuplicateIdAria": "Some ARIA ID values are not unique"
+        },
+        "NA": "There are no elements on the Web page",
+        "Conformancelevel": "FULL-AA"
+    },
+    "4.1.2": {
+        "Name": "Name, Role, Value",
+        "Level": "A",
+        "Link": "http://www.w3.org/TR/WCAG20/#ensure-compat-rsv",
+        "SUP": "Elements' names and roles are appropriate",
+        "DNS": {
+            "Role": "Role of some elements cannot be programmatically determined",
+            "Name": "Name of some elements cannot be programmatically determined",
+            "Attributes": "Some elements have invalid ARIA attributes"
+        },
+        "NA": "There are no user interface components",
+        "Conformancelevel": "FULL-AA"
+    },
+    "4.1.3": {
+        "Name": "Status Messages",
+        "Level": "AA",
+        "Link": "https://www.w3.org/TR/WCAG21/#status-messages",
+        "SUP": "",
+        "DNS": {},
+        "NA": "",
+        "Conformancelevel": "FULL-AA"
+    }
+}

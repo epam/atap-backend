@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- version 2013-10-04b -->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style type="text/css">
+        .arialfont {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <script type="text/javascript">
+        // Shortcut for much-used document.getElementById().
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        function showApplet(e) {
+            // Get target - older versions of IE don't support e.target
+            var targetElement = null;
+            //if it is a standard browser
+            if (typeof e.target != 'undefined') {
+                targetElement = e.target;
+            } else {
+                //otherwise it is IE then adapt syntax targetElement = e.srcElement;
+            }
+            $("showAppletFrame").src = targetElement.attributes["iframesrc"].value;
+            resetLinks("blue");
+            targetElement.style.color = "red";
+            targetElement.style.border = "medium solid black";
+        }
+
+        function resetLinks(hex) {
+            var links = document.getElementsByTagName("a");
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].href) {
+                    links[i].style.color = hex;
+                    links[i].style.border = "";
+                }
+            }
+        }
+    </script>
+    <title>Applets for Introduction to Statistical Investigations</title>
+</head>
+
+<body>
+    <div id="content" style="background-color: rgb(204, 255, 153);">
+        <table style="width: 1290px;" border="0" cellpadding="1" cellspacing="0" width="1222">
+            <tbody>
+                <tr>
+                    <td width="178"> <span class="arialfont"><strong>Categorical
+                                Response</strong></span></td>
+                    <td colspan="2" style="border-left: 1pt solid;" align="center"><span
+                            class="arialfont"><strong>Quantitative
+                                Response </strong></span></td>
+                    <td colspan="2" style="border-left: 1pt solid windowtext; width: 234px;" align="center"><span
+                            class="arialfont"><strong>Other Applets</strong>
+                        </span></td>
+                    <td style="width: 228px;">&nbsp;</td>
+                    <td style="width: 131px;"></td>
+                </tr>
+                <tr>
+                    <td> <span class="arialfont"><a id="cellOneProp" href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/OneProp/OneProp.htm?hideExtras=1"
+                                onclick="showApplet(event); return false;">One Proportion</a>
+                        </span></td>
+                    <td style="border-left: 1pt solid;" width="173">
+                        <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/Dotplot.html?hideExtras=1"
+                                onclick="showApplet(event); return false;">Descriptive
+                                Statistics</a></span></td>
+                    <td width="146"><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/MatchedPairs/MatchedPairs.htm?hideExtras=1"
+                                onclick="showApplet(event); return false;">Matched Pairs</a></span>
+                    </td>
+                    <td style="border-left: 1pt solid;" width="192">
+                        <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/TBIA.html?hideExtras=1"
+                                onclick="showApplet(event); return false;">Theory-Based
+                                Inference</a></span></td>
+                    <td style="width: 234px;"><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/OneSample.html?population=gettysburg&amp;hideExtras=1"
+                                onclick="showApplet(event); return false;">Sampling Words</a></span>
+                    </td>
+                    <td style="width: 228px;"> <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/RandomGen/GenRandom01.htm"
+                                onclick="showApplet(event); return false;">Random
+                                Numbers</a></span>
+                    </td>
+                    <td colspan="1" rowspan="3" style="width: 131px;"><span class="arialfont">more RC <a
+                                href="http://www.rossmanchance.com/applets/">applets</a></span></td>
+                </tr>
+                <tr>
+                    <td><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/ChiSqShuffle.html?yawning=1&amp;&amp;hideExtras=1"
+                                onclick="showApplet(event); return false;">Two Proportions</a></span>
+                    </td>
+                    <td style="border-left: 1pt solid;"><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/OneSample.html?hideExtras=1"
+                                onclick="showApplet(event); return false;">One Mean</a></span>
+                    </td>
+                    <td><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/RegShuffle.htm?hideExtras=2"
+                                onclick="showApplet(event); return false;">Corr/Regression</a></span>
+                    </td>
+                    <td style="border-left: 1pt solid;"><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/power.html?hideExtras=1"
+                                onclick="showApplet(event); return false;">Power Simulation</a></span>
+                    </td>
+                    <td style="width: 234px;"> <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/ConfSim.html?hideExtras=1"
+                                onclick="showApplet(event); return false;">Simulating
+                                Confidence Intervals</a></span></td>
+                    <td style="width: 228px;">
+                        <font face="Arial, Helvetica, sans-serif"><a
+                                href="http://www.rossmanchance.com/applets/GuessCorrelation.html"
+                                target="_blank">Correlation
+                                Guessing Game</a></font>
+                    </td>
+                </tr>
+                <tr>
+                    <td> <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/ChiSqShuffle.html?hideExtras=1"
+                                onclick="showApplet(event); return false;">Multiple
+                                Proportions</a></span></td>
+                    <td style="border-left: 1pt solid;"><span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/AnovaShuffle.htm?hideExtras=2"
+                                onclick="showApplet(event); return false;">Multiple Means</a></span>
+                    </td>
+                    <td></td>
+                    <td style="border-left: 1pt solid;"> <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/ChiSqShuffle.html?dolphins=1&amp;&amp;hideExtras=1"
+                                onclick="showApplet(event); return false;">Dolphin Study</a>
+                            &nbsp; </span></td>
+                    <td style="width: 234px;"> <span class="arialfont"><a href="#"
+                                iframesrc="http://www.rossmanchance.com/applets/Subjects.html"
+                                onclick="showApplet(event); return false;">Randomizing
+                                Subjects</a></span></td>
+                    <td style="width: 228px;"><span class="arialfont"><a
+                                href="http://www.rossmanchance.com/applets/MontyHall/Monty04.html">Monty Hall
+                                Game</a><br><a href="http://www.rossmanchance.com/applets/"></a></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table border="1">
+        </table>
+    </div>
+</body>
+
+</html>

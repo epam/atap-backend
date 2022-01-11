@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .edit-box {
+        margin-top: 10px;
+        margin-left: 30px;
+        }
+    </style>
+</head>
+ 
+<body>
+<script type="text/javascript">
+    function changeSubmit() {
+        let label1 = document.createElement('div');
+        let label2 = document.createElement('div');
+        document.getElementById("addresstext").className = "error";
+        document.getElementById("loan").className = "error";
+        label1.innerHTML = "<strong> Wrong data.</strong> <label name='error label' for='addresstext'>Invalid address</label>";
+        label2.innerHTML = "<strong> Wrong data.</strong> <label name='error label' for='loan'>Address error</label>";
+        document.body.append(label1);
+        document.body.append(label2);
+    }
+</script>
+<div style="margin-top: 150px;" class = "edit-box">
+    <label for="addresstext">Enter your address:</label><br>
+    <textarea id="addresstext"  name="addresstext" autocomplete="off"></textarea>
+</div>
+<div style="margin-top: 150px;" class = "edit-box">
+    <label for="loan">Loan balance:</label><br>
+    <textarea id="loan"  name="Loan" autocomplete="off"></textarea>
+</div>
+<input id='button' class="subm-btn" type="submit" value="Submit errors" onclick="changeSubmit()" /> 
+</body>
+</html>

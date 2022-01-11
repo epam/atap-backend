@@ -1,0 +1,174 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12.2
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=web_interface_user
+      - POSTGRES_DB=web_interface
+
+  rabbitmq:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    image: 10.244.220.110/eac_rabbitmq:${IMAGES_TAG}
+
+  xorg:
+    deploy:
+      placement:
+        max_replicas_per_node: 1
+    image: 10.244.220.110/dummy_xorg:${IMAGES_TAG}
+    volumes:
+      - x11:/tmp/.X11-unix
+
+  nginx:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    image: 10.244.220.110/eac_nginx:${IMAGES_TAG}
+    ports:
+      - "8000:80"
+      - "8443:443"
+    volumes:
+      - wsgi-socket:/socket
+      - static:/static
+      - media:/media
+    depends_on:
+      - server
+
+  server:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    shm_size: '2gb'
+    cap_add:
+      - SYS_ADMIN
+    image: 10.244.220.110/eac:${IMAGES_TAG}
+    volumes:
+      - x11:/tmp/.X11-unix
+      - wsgi-socket:/socket
+      - static:/static
+      - media:/media
+    depends_on:
+      - db
+      - rabbitmq
+      - xorg
+    environment:
+      - CURRENT_ENV
+      - SENTRY_DSN
+      - VAULT_ROLE_ID
+      - VAULT_SECRET_ID
+      - VAULT_URL
+      - JIRA_TEST_TOKEN
+      - VAULT_NAMESPACE
+      - CORS_EXTRA_ALLOWED_ORIGIN
+      - REQUESTS_CA_BUNDLE:/etc/ssl/certs/ca-certificates.crt
+    command: bash -c "cd /app && python3 manage.py collectstatic --noinput && python3 manage.py migrate && python manage.py create_defaultuser && python manage.py cache_available_tests && python manage.py delete_corrupted_page_screenshots && python manage.py delete_corrupted_issue_screenshots && python manage.py abort_running_tasks && gunicorn --access-logfile - --error-logfile - -t 240 --workers 2 --bind unix:/socket/socket.sock web_interface.wsgi:application"
+
+  worker_longlived:
+    environment:
+      - THREAD_COUNT
+    deploy:
+      placement:
+        max_replicas_per_node: 1
+    shm_size: '2gb'
+    cap_add:
+      - SYS_ADMIN
+    image: 10.244.220.110/eac:${IMAGES_TAG}
+    volumes:
+      - x11:/tmp/.X11-unix
+      - models:/models
+      - squid_control:/squid_control
+      - worker_state:/worker_state
+    depends_on:
+      - rabbitmq
+      - xorg
+      - cache
+    command: bash -c "bash /app/CI/download_models.sh && cd /app && celery -A web_interface worker --concurrency=1 --queue longlived --statedb /worker_state/longlived_state.db"
+
+  worker_shortlived:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    shm_size: '2gb'
+    cap_add:
+      - SYS_ADMIN
+    image: 10.244.220.110/eac:${IMAGES_TAG}
+    volumes:
+      - x11:/tmp/.X11-unix
+      - media:/media
+    depends_on:
+      - rabbitmq
+      - xorg
+    command: bash -c "cd /app && celery -A web_interface worker --concurrency=2 --queue shortlived"
+
+  worker_rabbitmq_receiver:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    cap_add:
+      - SYS_ADMIN
+    image: 10.244.220.110/eac:${IMAGES_TAG}
+    volumes:
+      - media:/media
+    depends_on:
+      - rabbitmq
+    command: bash -c "cd /app && celery -A web_interface worker --concurrency=1 --queue rabbitmq_receiver"
+
+  worker_celery_beat:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    cap_add:
+      - SYS_ADMIN
+    image: 10.244.220.110/eac:${IMAGES_TAG}
+    depends_on:
+      - rabbitmq
+    command: bash -c "cd /app && rm -f celerybeat.pid && celery -A web_interface beat -l INFO --max-interval=5"
+
+  worker_shortlived_realtime:
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+    shm_size: '2gb'
+    cap_add:
+      - SYS_ADMIN
+    image: 10.244.220.110/eac:${IMAGES_TAG}
+    volumes:
+      - x11:/tmp/.X11-unix
+    depends_on:
+      - rabbitmq
+      - xorg
+    command: bash -c "cd /app && celery -A web_interface worker --concurrency=2 --queue shortlived_realtime"
+
+  cache:
+    deploy:
+      placement:
+        max_replicas_per_node: 1
+    image: 10.244.220.110/cache:${IMAGES_TAG}
+    volumes:
+      - squid_control:/squid_control
+
+volumes:
+  postgres-data:
+  x11:
+  wsgi-socket:
+  static:
+  media:
+  models:
+  squid_control:
+  worker_state:

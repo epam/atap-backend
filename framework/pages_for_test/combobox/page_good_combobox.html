@@ -1,0 +1,50 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Combobox with Listbox Popup Pass</title>
+<link href="https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/css/combobox-1.1.css" rel="stylesheet">
+<script src="https://www.w3.org/TR/wai-aria-practices/examples/js/utils.js" type="text/javascript"></script>
+<script src="https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/js/listbox-combobox.js" type="text/javascript"></script>
+<script src="https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/js/listbox-combo-example.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+<div id="combobox1">
+	<label for="ex1-input" id="ex1-label" class="combobox-label">Choice 1 Fruit or Vegetable</label>
+	<div class="combobox-wrapper">
+		<div role="combobox" aria-expanded="false" aria-owns="ex1-listbox" aria-haspopup="listbox" id="ex1-combobox">
+			<input type="text" aria-autocomplete="list" aria-controls="ex1-listbox" id="ex1-input">
+		</div>
+		<ul aria-labelledby="ex1-label" role="listbox" id="ex1-listbox" class="listbox hidden">
+		</ul>
+	</div>
+</div><br>
+
+<div id="combobox2">
+	<label id="ex2-label" class="combobox-label">Choice 2 Fruit or Vegetable</label>
+	<div class="combobox-wrapper">
+		<div role="combobox" aria-expanded="false" aria-owns="ex2-listbox" aria-haspopup="listbox" id="ex2-combobox">
+			<input type="text" aria-autocomplete="list" aria-controls="ex2-listbox" aria-labelledby="ex2-label" id="ex2-input">
+		</div>
+		<ul aria-labelledby="ex2-label" role="listbox" id="ex2-listbox" class="listbox hidden">
+		</ul>
+	</div>
+</div><br>
+
+<div id="combobox3">
+	<label id="ex3-label" class="combobox-label">Choice 3 Fruit or Vegetable</label>
+	<div class="combobox-wrapper">
+		<div role="combobox" aria-expanded="false" aria-owns="ex3-listbox" aria-haspopup="listbox" id="ex3-combobox">
+			<input type="text" aria-autocomplete="both" aria-controls="ex3-listbox" aria-labelledby="ex3-label" id="ex3-input">
+			<div class="combobox-dropdown" id="ex3-combobox-arrow" tabindex="-1" role="button" aria-label="Show vegetable options">
+				<img src="https://www.w3.org/TR/wai-aria-practices/examples/combobox/aria1.1pattern/imgs/arrow_drop_down_grey_27x27.png" alt="">
+			</div>
+		</div>
+		<ul aria-labelledby="ex3-label" role="listbox" id="ex3-listbox" class="listbox hidden">
+		</ul>
+	</div>
+</div><br>
+
+</body>
+
+</html>

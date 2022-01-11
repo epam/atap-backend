@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Radio Test</title>
+    <link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        [role=radio] {
+            display: block;
+            position: relative;
+            margin: 0.5em;
+            padding-left: 20px;
+            border: thin transparent solid;
+        }
+
+        [role=radio]::before,
+        [role=radio]::after {
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            content: '';
+        }
+
+        [role=radio]::before {
+            top: 6px;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            border: 1px solid #000;
+            background: #fff;
+        }
+
+        [role=radio][aria-checked=true]::after {
+            top: 8px;
+            left: 2px;
+            border: 5px solid #000;
+            content: '';
+        }
+
+        #codeex {
+            background-color: #F1F1F1;
+            padding: 10px;
+        }
+
+        .radio1 {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgb(201, 201, 201);
+            display: inline-block;
+        }
+
+        .radio2 {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgb(165, 160, 211);
+            display: inline-block;
+        }
+
+        .choosen {
+            background-color: rgb(58, 58, 58);
+        }
+
+        .label {
+            display: inline-block;
+        }
+
+        body {
+            margin: 50px;
+        }
+
+        /* Customize the label (the container) */
+        .checkcontainer {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .checkcontainer input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .checkcontainer:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .checkcontainer input:checked~.checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .checkcontainer input:checked~.checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .checkcontainer .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        [role=radio] {
+            display: block;
+            position: relative;
+            margin: 0.5em;
+            padding-left: 20px;
+            border: thin transparent solid;
+        }
+
+        [role=radio]::before,
+        [role=radio]::after {
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            content: '';
+        }
+
+        [role=radio]::before {
+            top: 6px;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            border: 1px solid #000;
+            background: #fff;
+        }
+
+        [role=radio][aria-checked=true]::after {
+            top: 8px;
+            left: 2px;
+            border: 5px solid #000;
+            content: '';
+        }
+
+        #codeex {
+            background-color: #F1F1F1;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Native</h1>
+    <section>
+        <form>
+            <input type="radio" name="test" value="1" id="test_1"><label for="test_1">One</label><br />
+            <input type="radio" name="test" value="2" id="test_2"><label for="test_2">Two</label><br />
+            <input type="radio" name="test" value="3" id="test_3"><label for="test_3">Three</label><br />
+            <input type="radio" name="test" value="4" id="test_4"><label for="">Four</label><br />
+        </form>
+    </section>
+    <br />
+    <h1>Bad</h1>
+    <section>
+        <div class="">
+            <div class="radio1" id="radio1_1"></div>
+            <div class="label">One </div><br />
+            <div class="radio1" id="radio1_2"></div>
+            <div class="label">Two</div><br />
+            <div class="radio1" id="radio1_3"></div>
+            <div class="label">Three</div><br />
+            <div class="radio1" id="radio1_4"></div>
+            <div class="label">Four</div><br />
+        </div>
+        <!-- <div class="">
+            <div><div class="radio2" id="radio2_1"></div><div class="label">One </div></div>
+            <div><div class="radio2" id="radio2_2"></div><div class="label">Two</div></div>
+            <div><div class="radio2" id="radio2_3"></div><div class="label">Three</div></div>
+            <div><div class="radio2" id="radio2_4"></div><div class="label">Four</div></div>
+        </div> -->
+        <div>
+            <label class="checkcontainer" id="label_checkbox">One
+                <input type="checkbox" checked="checked" id="checkbox_1">
+                <span class="checkmark" id="checkmark_1"></span>
+            </label>
+        </div>
+        <div>
+            <label class="checkcontainer" id="label_checkbox_2">Two
+                <input type="checkbox" checked="checked" id="checkbox_21">
+                <span class="checkmark" id="checkmark_1"></span>
+            </label>
+        </div>
+        <div class="btn btn-success" id="submit_btn">Send!</div>
+
+    </section>
+    <br />
+    <br />
+    <h1>Valid</h1>
+    <section>
+        <div role="radiogroup" aria-labelledby="gdesc1" class="radiogroup1">
+            <div role="radio" aria-checked="false" id="valid_radio_1" tabindex="0"> Regular crust </div>
+            <div role="radio" aria-checked="false" id="valid_radio_2" tabindex="-1"> Deep dish </div>
+            <div role="radio" aria-checked="false" id="valid_radio_3" tabindex="-1"> Thin crust </div>
+        </div>
+    </section>
+
+    <h1>Valid 2</h1>
+    <section>
+        <div role="radiogroup" aria-labelledby="gdesc1">
+            <div role="radio" aria-checked="false" id="valid_radio_1_1" tabindex="0"> Radio in two stirng Radio in two
+                stirng Radio in two stirng Radio in two stirng Radio in two stirng Radio in two stirng Radio in two
+                stirng Radio in two stirng </div>
+            <div role="radio" aria-checked="false" id="valid_radio_1_2" tabindex="-1"> Deep dish </div>
+            <div role="radio" aria-checked="false" id="valid_radio_1_3" tabindex="-1"> Thin crust </div>
+        </div>
+    </section>
+</body>
+<script>
+    $('.radio1').click(function () {
+        $('.radio1').removeClass('choosen')
+        $(this).addClass('choosen')
+    })
+
+    $('.radio2').click(function () {
+        $('.radio2').removeClass('choosen')
+        $(this).addClass('choosen')
+    })
+    $('#submit_btn').click(function () {
+        if ($(this).text() == 'Send!') {
+            $(this).removeClass('btn-success')
+            $(this).addClass('btn-secondary')
+            $(this).attr('disabled', true)
+            $(this).text('Sended!')
+        }
+    })
+
+</script>
+<script>
+    var KEYCODE = {
+        DOWN: 40,
+        LEFT: 37,
+        RIGHT: 39,
+        SPACE: 32,
+        UP: 38
+    }
+
+    window.addEventListener('load', function () {
+
+        var radiobuttons = document.querySelectorAll('[role=radio]');
+
+        for (var i = 0; i < radiobuttons.length; i++) {
+            var rb = radiobuttons[i];
+
+            console.log(rb.tagName + " " + rb.id)
+
+            rb.addEventListener('click', clickRadioGroup);
+            rb.addEventListener('keydown', keyDownRadioGroup);
+            rb.addEventListener('focus', focusRadioButton);
+            rb.addEventListener('blur', blurRadioButton);
+        }
+
+    });
+
+    /*
+    * @function firstRadioButton
+    *
+    * @desc Returns the first radio button
+    *
+    * @param   {Object}  event  =  Standard W3C event object
+    */
+
+    function firstRadioButton(node) {
+
+        var first = node.parentNode.firstChild;
+
+        while (first) {
+            if (first.nodeType === Node.ELEMENT_NODE) {
+                if (first.getAttribute("role") === 'radio') return first;
+            }
+            first = first.nextSibling;
+        }
+
+        return null;
+    }
+
+    /*
+    * @function lastRadioButton
+    *
+    * @desc Returns the last radio button
+    *
+    * @param   {Object}  event  =  Standard W3C event object
+    */
+
+    function lastRadioButton(node) {
+
+        var last = node.parentNode.lastChild;
+
+        while (last) {
+            if (last.nodeType === Node.ELEMENT_NODE) {
+                if (last.getAttribute("role") === 'radio') return last;
+            }
+            last = last.previousSibling;
+        }
+
+        return last;
+    }
+
+    /*
+    * @function nextRadioButton
+    *
+    * @desc Returns the next radio button
+    *
+    * @param   {Object}  event  =  Standard W3C event object
+    */
+
+    function nextRadioButton(node) {
+
+        var next = node.nextSibling;
+
+        while (next) {
+            if (next.nodeType === Node.ELEMENT_NODE) {
+                if (next.getAttribute("role") === 'radio') return next;
+            }
+            next = next.nextSibling;
+        }
+
+        return null;
+    }
+
+    /*
+    * @function previousRadioButton
+    *
+    * @desc Returns the previous radio button
+    *
+    * @param   {Object}  event  =  Standard W3C event object
+    */
+
+    function previousRadioButton(node) {
+
+        var prev = node.previousSibling;
+
+        while (prev) {
+            if (prev.nodeType === Node.ELEMENT_NODE) {
+                if (prev.getAttribute("role") === 'radio') return prev;
+            }
+            prev = prev.previousSibling;
+        }
+
+        return null;
+    }
+
+    /*
+    * @function getImage
+    *
+    * @desc Gets the image for radio box
+    *
+    * @param   {Object}  event  =  Standard W3C event object
+    */
+
+    function getImage(node) {
+
+        var child = node.firstChild;
+
+        while (child) {
+            if (child.nodeType === Node.ELEMENT_NODE) {
+                if (child.tagName === 'IMG') return child;
+            }
+            child = child.nextSibling;
+        }
+
+        return null;
+    }
+
+    /*
+    * @function setRadioButton
+    *
+    * @desc Toogles the state of a radio button
+    *
+    * @param   {Object}  event  -  Standard W3C event object
+    *
+    */
+
+    function setRadioButton(node, state) {
+        var image = getImage(node);
+
+        if (state == 'true') {
+            node.setAttribute('aria-checked', 'true')
+            node.tabIndex = 0;
+            node.focus()
+        }
+        else {
+            node.setAttribute('aria-checked', 'false')
+            node.tabIndex = -1;
+        }
+    }
+
+    /*
+    * @function clickRadioGroup
+    *
+    * @desc
+    *
+    * @param   {Object}  node  -  DOM node of updated group radio buttons
+    */
+
+    function clickRadioGroup(event) {
+        var type = event.type;
+
+        if (type === 'click') {
+            // If either enter or space is pressed, execute the funtion
+
+            var node = event.currentTarget;
+
+            var radioButton = firstRadioButton(node);
+
+            while (radioButton) {
+                setRadioButton(radioButton, "false");
+                radioButton = nextRadioButton(radioButton);
+            }
+
+            setRadioButton(node, "true");
+
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    /*
+    * @function keyDownRadioGroup
+    *
+    * @desc
+    *
+    * @param   {Object}   node  -  DOM node of updated group radio buttons
+    */
+
+    function keyDownRadioGroup(event) {
+        var type = event.type;
+        var next = false;
+
+        if (type === "keydown") {
+            var node = event.currentTarget;
+
+            switch (event.keyCode) {
+                case KEYCODE.DOWN:
+                case KEYCODE.RIGHT:
+                    var next = nextRadioButton(node);
+                    if (!next) next = firstRadioButton(node); //if node is the last node, node cycles to first.
+                    break;
+
+                case KEYCODE.UP:
+                case KEYCODE.LEFT:
+                    next = previousRadioButton(node);
+                    if (!next) next = lastRadioButton(node); //if node is the last node, node cycles to first.
+                    break;
+
+                case KEYCODE.SPACE:
+                    next = node;
+                    break;
+            }
+
+            if (next) {
+                var radioButton = firstRadioButton(node);
+
+                while (radioButton) {
+                    setRadioButton(radioButton, "false");
+                    radioButton = nextRadioButton(radioButton);
+                }
+
+                setRadioButton(next, "true");
+
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }
+    }
+
+    /*
+    * @function focusRadioButton
+    *
+    * @desc Adds focus styling to label element encapsulating standard radio button
+    *
+    * @param   {Object}  event  -  Standard W3C event object
+    */
+
+    function focusRadioButton(event) {
+        event.currentTarget.className += ' focus';
+    }
+
+    /*
+    * @function blurRadioButton
+    *
+    * @desc Adds focus styling to the label element encapsulating standard radio button
+    *
+    * @param   {Object}  event  -  Standard W3C event object
+    */
+
+    function blurRadioButton(event) {
+        event.currentTarget.className = event.currentTarget.className.replace(' focus', '');
+    }
+</script>
+
+</html>

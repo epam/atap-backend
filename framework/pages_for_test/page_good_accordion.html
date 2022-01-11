@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Accordion Test</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #2d2c41;
+    font-family: 'Open Sans', Arial, Helvetica, Sans-serif, Verdana, Tahoma;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  a {
+    color: #b63b4d;
+    text-decoration: none;
+  }
+
+  /** =======================
+ * Contenedor Principal
+ ===========================*/
+
+
+  h1 {
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 80px;
+  }
+
+  h1 a {
+    color: #c12c42;
+    font-size: 16px;
+  }
+
+  .accordion {
+    width: 100%;
+    max-width: 50%;
+    margin: 30px auto 20px;
+    background: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  .accordion .link {
+    cursor: pointer;
+    display: block;
+    padding: 15px 15px 15px 0px;
+    color: #4D4D4D;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid #CCC;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+
+  .accordion li:last-child .link {
+    border-bottom: 0;
+  }
+
+  .accordion li i {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+    font-size: 18px;
+    color: #595959;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+  }
+
+  .accordion li i.fa-chevron-down {
+    right: 12px;
+    left: auto;
+    font-size: 16px;
+  }
+
+  .accordion li.open .link {
+    color: #b63b4d;
+  }
+
+  .accordion li.open i {
+    color: #b63b4d;
+  }
+
+  .accordion li.open i.fa-chevron-down {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+
+  /**
+ * Submenu
+ -----------------------------*/
+
+
+  .submenu {
+    display: none;
+    background: red;
+    font-size: 14px;
+  }
+
+  .submenu li {
+    border-bottom: 1px solid #a5a5a5;
+  }
+
+  .submenu a {
+    display: block;
+    text-decoration: none;
+    color: #d9d9d9;
+    padding: 12px;
+    padding-left: 42px;
+    -webkit-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+  }
+
+  .submenu a:hover {
+    background: #b63b4d;
+    color: #FFF;
+  }
+
+  #content-wrapper ul li,
+  #contentwrapper ol li {
+    margin-bottom: 6px;
+    padding-left: 0px !important;
+    position: relative;
+  }
+</style>
+
+<body>
+  <ul id="accordion" class="accordion">
+    <li class="open" aria-expanded="true" aria-controls="sect1">
+      <div class="link">Item 1<i class="fa fa-chevron-down"></i></div>
+      <ul class="submenu" style="display: block;" id="sect1">
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+          id est laborum.Lorem Ipsum
+        </li>
+      </ul>
+    </li>
+    <li aria-expanded="false" aria-controls="sect2">
+      <div class="link">Item 2<i class="fa fa-chevron-down"></i></div>
+      <ul class="submenu" id="sect2">
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+          id est laborum.
+        </li>
+      </ul>
+    </li>
+    <li aria-expanded="false" aria-controls="sect3">
+      <div class="link">Item 3<i class="fa fa-chevron-down"></i></div>
+      <ul class="submenu" id="sect3">
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+          id est laborum.
+        </li>
+      </ul>
+    </li>
+    <li aria-expanded="false" aria-controls="sect4">
+      <div class="link">Item 4<i class="fa fa-chevron-down"></i></div>
+      <ul class="submenu" id="sect4">
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+          id est laborum.
+        </li>
+      </ul>
+    </li>
+  </ul>
+</body>
+<script>
+  $(function () {
+    var Accordion = function (el, multiple) {
+      this.el = el || {};
+      this.multiple = multiple || false;
+
+      // Variables privadas
+      var links = this.el.find('.link');
+      // Evento
+      links.on('click', { el: this.el, multiple: this.multiple }, this.dropdown);
+    };
+
+    Accordion.prototype.dropdown = function (e) {
+      var $el = e.data.el;
+      $this = $(this),
+        $next = $this.next();
+
+      $next.slideToggle();
+      $this.parent().toggleClass('open');
+
+      if (!e.data.multiple) {
+        $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+      };
+    };
+
+    var accordion = new Accordion($('#accordion'), false);
+  }); 
+</script>
+
+</html>

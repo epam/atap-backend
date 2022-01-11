@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Radio Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+.info{
+    width: 400px;
+    height: 200px;
+    top: 40%;
+    left: 40%;
+    border: 1px solid black;
+    position: fixed;
+    background-color: azure
+}
+.backdrop{
+    position: fixed;
+    top: 0;
+    display: none;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(220, 220, 220, 0.4)
+}
+
+</style>
+<body>
+    
+    <h1>Modal Test</h1>
+    <input type="text">
+<button>Send</button>
+<button id="info_btn">Show Info</button>
+<div class="backdrop" id="modal_container">
+    <div class="info p-4">
+            Additional information in a modal window
+            <div class="close">
+                x
+            </div>
+            <form>
+            <input type="text" class="my-4" required>
+            <button type="submit">
+                Send
+            </button>
+        </form>
+    </div>
+</div>
+<div class="fake_info">
+        <p>Additional information not in a modal window</p>
+
+    </div>
+
+
+
+</body>
+<script>
+    $('#info_btn').click(function(){
+        $('#modal_container').show()
+    })
+
+    $('.close').click( function(){
+        $('#modal_container').hide()
+    } )
+</script>
+
+</html>

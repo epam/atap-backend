@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<script type="text/javascript">
+    function requiredTrue () {
+        let input_name = document.getElementsByName("name")[0];
+        let input_mail = document.getElementsByName("email")[0];
+        let select_input = document.getElementsByName("country")[0]
+        input_name.setAttribute("mustwork", "true");
+        input_mail.setAttribute("mustwork", "true");
+        select_input.setAttribute("mustwork", "true");
+        alert_text = "There are errors in these fields:\nИмя\nE-mail\nСтрана"
+        alert(alert_text);        
+    }
+</script>
+<body>
+  <form method="post">
+    <div style="margin: 10px;">
+      <label for="name">Имя</label>
+      <input type="text" name="name" required>
+    </div>
+
+    <div style="margin: 10px;">
+      <label for="email">E-mail</label>
+      <input type="email" name="email" required>
+    </div>
+    <div style="margin: 10px;">
+      <label for="country">Страна</label>
+      <select name="country">
+        <option>Выберите страну проживания</option>
+        <option value="Россия">Россия</option>
+        <option value="Украина">Украина</option>
+        <option value="Беларусь">Беларусь</option>
+      </select>
+      <div class="select-arrow"></div>
+    </div>
+    <button style="margin: 10px;" type="submit" onclick="requiredTrue()">Отправить</button>
+  </form>
+</body>
+</html>
+

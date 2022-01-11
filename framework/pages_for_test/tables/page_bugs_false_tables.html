@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Very Bad</title>
+    <style type="text/css">
+        .column {
+          float: left;
+          width: 50%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        .row {
+          display: flex;
+        }
+
+        .column {
+          flex: 50%;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="grandfather">
+    <div class="row">
+        <div class="column"><a>NAME</a></div>
+        <div class="column"><a>SURNAME</a></div>
+        <div class="column"><a>BIRTHDAY</a></div>
+    </div>
+    <div class="row">
+        <div class="column">anything 1</div>
+        <div class="column">anything 2</div>
+        <div class="column">anything 3</div>
+    </div>
+    <div class="row">
+        <div class="column">anything 1</div>
+        <div class="column">anything 2</div>
+        <div class="column">anything 3</div>
+    </div>
+</div>
+<br>
+<br>
+<div>
+    <div class="row">
+        <div class="column"><a>NAME</a></div>
+        <div class="column"><a>SURNAME</a></div>
+        <div class="column"><a>BIRTHDAY</a></div>
+    </div>
+    <div class="row">
+        <div class="column">anything 1</div>
+        <div class="column">anything 2</div>
+        <div class="column">anything 3</div>
+    </div>
+    <div class="row">
+        <div class="column">anything 1</div>
+        <div class="column">anything 2</div>
+        <div class="column">anything 3</div>
+    </div>
+    
+     <div class="row">
+        <div class="column">anything 1</div>
+        <div class="column">anything 2</div>
+        <div class="column">anything 3</div>
+    </div>
+
+     <div class="row">
+        <div class="column">anything 1</div>
+        <div class="column">anything 2</div>
+        <div class="column">anything 3</div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <section>
+        <form>
+            <input type="radio" name="test" value="1" id="test_1"><label for="test_1">One</label><br/>
+            <input type="radio" name="test" value="2" id="test_2"><label for="test_2">Two</label><br/>
+            <input type="radio" name="test" value="3" id="test_3"><label for="test_3">Three</label><br/>
+            <input type="radio" name="test" value="4" id="test_4"><label for="test_4">Four</label><br/>
+        </form>
+        <button onclick="myFunction()">Try it</button>
+    </section>
+
+<p>Click the "Try it" button to disable the radio button.</p>
+
+
+<script>
+function myFunction() {
+  document.getElementById("test_1").disabled = true;
+  document.getElementById("test_1").setAttribute('aria-checked', true);
+  document.getElementById("test_2").disabled = true;
+  document.getElementById("test_3").disabled = true;
+  document.getElementById("test_4").disabled = true;
+}
+</script>
+
+</body>
+</html>

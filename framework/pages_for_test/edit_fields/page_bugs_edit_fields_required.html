@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+
+<body>
+    <label for="firstname">First name (*)</label>
+    <input type="text" name="firstname" id="firstname" aria-label="required">
+    <br>
+    <label for="firstname2">First name 2 (required)</label>
+    <input type="text" name="firstname2" id="firstname2" aria-label="required">
+    <br>
+    <form>
+        <label for="firstname">First name 3 <abbr class="req" title="required">*</abbr>:</label>
+        <input type="text" name="firstname" id="firstname3"><br>
+
+        <label for="secondname">Second name <abbr class="req" title="required">*</abbr>:</label>
+        <input type="text" name="secondname" id="secondname"><br>
+    </form>
+
+    <label for="firstname4">First name 4 (required)</label>
+    <input type="text" name="firstname4" id="firstname4"><br>
+
+    <label>First name5 (required)
+        <input type="text" name="firstname5">
+    </label><br>
+
+    <div id="input05">Aria-describedby example</div>
+    <input type="text" aria-describedby="input05" required><br>
+
+    <div id="input09">Aria-labelledby example</div>
+    <input type="text" aria-describedby="input09" required><br>
+
+    <div id="input19">Aria-labelledby example(required)</div>
+    <input type="text" aria-describedby="input19"><br>
+
+    <label for="textarea01">Textarea example</label><br>
+    <textarea id="textarea01" aria-required="true"></textarea><br>
+
+</body>
+</html>

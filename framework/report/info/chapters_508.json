@@ -1,0 +1,80 @@
+{
+  "3": {
+    "name": "Functional Performance Criteria (FPC)",
+    "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#302-functional-performance-criteria",
+    "items": [
+      "302.1 Without Vision", "302.2 With Limited Vision", "302.3 Without Perception of Color",
+      "302.4 Without Hearing", "302.5 With Limited Hearing", "302.6 Without Speech",
+      "302.7 With Limited Manipulation", "302.8 With Limited Reach and Strength",
+      "302.9 With Limited Language, Cognitive, and Learning Abilities"
+    ]
+  },
+  "4": {
+    "name": "Hardware",
+    "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#401-general",
+    "items": [
+      {"name": "402 Closed Functionality", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#402-closed-functionality"},
+      {"name": "402.1 General"}, {"name": "402.2 Speech-Output Enabled"},
+      "402.2.1 Information Displayed On-Screen", "402.2.2 Transactional Outputs",
+      "402.2.3 Speech Delivery Type and Coordination", "402.2.4 User Control",
+      "402.2.5 Braille Instructions", {"name": "402.3 Volume"}, "402.3.1 Private Listening",
+      "402.3.2 Non-private Listening", "402.4 Characters on Display Screens",
+      "402.5 Characters on Variable Message Signs", {"name": "403 Biometrics",
+      "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#403-biometrics"},
+      "403.1 General", {"name":  "404 Preservation of Information Provided for Accessibility", "url":  "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#404-preservation-information"},
+      "404.1 General", {"name": "405 Privacy", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#405-privacy"}, "405.1 General",
+      {"name": "406 Standard Connections", "url":  "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#406-standard-connections"},
+      "406.1 General", {"name": "407 Operable Parts", "url":  "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#407-operable-parts"},
+      "407.2 Contrast", {"name": "407.3 Input Controls"}, "407.3.1 Tactilely Discernible", "407.3.2 Alphabetic Keys",
+      "407.3.3 Numeric Keys", "407.4 Key Repeat", "407.5 Timed Response", "407.6 Operation",
+      "407.7 Tickets, Fare Cards, and Keycards", {"name": "407.8 Reach Height and Depth"},
+      "407.8.1 Vertical Reference Plane", "407.8.1.1 Vertical Plane for Side Reach",
+      "407.8.1.2 Vertical Plane for Forward Reach", "407.8.2 Side Reach",
+      "407.8.2.1 Unobstructed Side Reach", "407.8.2.2 Obstructed Side Reach", "407.8.3 Forward Reach",
+      "407.8.3.1 Unobstructed Forward Reach", "407.8.3.2 Obstructed Forward Reach",
+      "407.8.3.2.1 Operable Part Height for ICT with Obstructed Forward Reach",
+      "407.8.3.2.2 Knee and Toe Space under ICT with Obstructed Forward Reach", {"name": "408 Display Screens", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#408-display-screens"},
+      "408.2 Visibility", "408.3 Flashing", {"name":  "409 Status Indicators", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#409-status-indicators"},
+      "409.1 General", {"name": "410 Color Coding", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#410-color-coding"},
+      "410.1 General", {"name": "411 Audible Signals", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#411-audible-signals"},
+      "411.1 General", {"name": "412 ICT with Two-Way Voice Communication", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#412-two-way-communication"},
+      {"name": "412.2 Volume Gain"}, "412.2.1 Volume Gain for Wireline Telephones", "412.2.2 Volume Gain for Non-Wireline ICT",
+      {"name": "412.3 Interference Reduction and Magnetic Coupling"}, "412.3.1 Wireless Handsets",
+      "412.3.2 Wireline Handsets", "412.4 Digital Encoding of Speech", "412.5 Real-Time Text Functionality",
+      "412.6 Caller ID", "412.7 Video Communication", {"name": "412.8 Legacy TTY Support"},
+      "412.8.1 TTY Connectability", "412.8.2 Voice and Hearing Carry Over", "412.8.3 Signal Compatibility",
+      "412.8.4 Voice Mail and Other Messaging Systems", {"name": "413 Closed Caption Processing Technologies", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#413-closed-caption"},
+      "413.1.1 Decoding and Display of Closed Captions", "413.1.2 Pass-Through of Closed Caption Data",
+      {"name": "414 Audio Description Processing Technologies", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#414-audio-description"},
+      "414.1.1 Digital Television Tuners", "414.1.2 Other ICT", {"name": "415 User Controls for Captions and Audio Descriptions", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#415-user-controls-captions-audio-descriptions"},
+      "415.1.1 Caption Controls", "415.1.2 Audio Description Controls"
+    ]
+  },
+  "5": {
+    "name": "Software",
+    "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#501-general",
+    "items": [
+      "501.1 Scope – Incorporation of WCAG 2.0 AA", {"name": "502 Interoperability with Assistive Technology", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#502-interoperability-assistive-technology"},
+      "502.2.1 User Control of Accessibility Features", "502.2.2 No Disruption of Accessibility Features",
+      {"name": "502.3 Accessibility Services"}, "502.3.1 Object Information",
+      "502.3.2 Modification of Object Information", "502.3.3 Row, Column, and Headers", "502.3.4 Values",
+      "502.3.5 Modification of Values", "502.3.6 Label Relationships", "502.3.7 Hierarchical Relationships",
+      "502.3.8 Text", "502.3.9 Modification of Text", "502.3.10 List of Actions", "502.3.11 Actions on Objects",
+      "502.3.12 Focus Cursor", "502.3.13 Modification of Focus Cursor", "502.3.14 Event Notification",
+      "502.4 Platform Accessibility Features", {"name": "503 Applications", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#503-applications"},
+      "503.2 User Preferences", "503.3 Alternative User Interfaces", {"name":  "503.4 User Controls for Captions and Audio Description"},
+      "503.4.1 Caption Controls", "503.4.2 Audio Description Controls", {"name": "504 Authoring Tools", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#504-authoring-tools"},
+      "504.2 Content Creation or Editing (if not authoring tool, enter “not applicable”)", "504.2.1 Preservation of Information Provided for Accessibility in Format Conversion", "504.2.2 PDF Export", "504.3 Prompts", "504.4 Templates"
+    ]
+  },
+  "6": {
+    "name": "Support Documentation and Services",
+    "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#601-general",
+    "items": [
+      {"name": "601.1 Scope"}, {"name": "602 Support Documentation", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#602-support-documentation"},
+      "602.2 Accessibility and Compatibility Features", "602.3 Electronic Support Documentation",
+      "602.4 Alternate Formats for Non-Electronic Support Documentation", {"name": "603 Support Services", "url": "https://www.access-board.gov/guidelines-and-standards/communications-and-it/about-the-ict-refresh/final-rule/text-of-the-standards-and-guidelines#603-support-services"},
+      "603.2 Information on Accessibility and Compatibility Features", "603.3 Accommodation of Communication Needs"
+    ]
+  }
+}

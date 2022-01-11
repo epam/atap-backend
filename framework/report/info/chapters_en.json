@@ -1,0 +1,131 @@
+{
+  "4": {
+    "name": "Functional Performance Statements (FPS)",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A38%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      "4.2.1 Usage without vision", "4.2.2 Usage with limited vision",
+      "4.2.3 Usage without perception of colour", "4.2.4 Usage without hearing",
+      "4.2.5 Usage with limited hearing", "4.2.6 Usage with no or limited vocal capability",
+      "4.2.7 Usage with limited manipulation or strength", "4.2.8 Usage with limited reach",
+      "4.2.9 Minimize photosensitive seizure triggers",
+      "4.2.10 Usage with limited cognition, language or learning", "4.2.11 Privacy"
+    ]
+  },
+  "5": {
+    "name": "Generic Requirements",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A38%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "5.1 Closed functionality"}, {"name": "5.1.2 General"},
+      {"name": "5.1.2.1 Closed functionality"}, {"name": "5.1.2.2 Assistive technology"},
+      {"name": "5.1.3 Non-visual access"}, "5.1.3.1 Audio output of visual information",
+      "5.1.3.2 Auditory output delivery including speech", "5.1.3.3 Auditory output correlation",
+      "5.1.3.4 Speech output user control", "5.1.3.5 Speech output automatic interruption",
+      "5.1.3.6 Speech output for non-text content", "5.1.3.7 Speech output for video information",
+      "5.1.3.8 Masked entry", "5.1.3.9 Private access to personal data", "5.1.3.10 Non-interfering audio output",
+      "5.1.3.11 Private listening volume", "5.1.3.12 Speaker volume", "5.1.3.13 Volume reset",
+      "5.1.3.14 Spoken languages", "5.1.3.15 Non-visual error identification",
+      "5.1.3.16 Receipts, tickets, and transactional outputs", "5.1.4 Functionality closed to text enlargement",
+      "5.1.5 Visual output for auditory information", {"name": "5.1.6 Operation without keyboard interface"},
+      {"name": "5.1.6.1 Closed functionality"}, "5.1.6.2 Input focus", "5.1.7 Access without speech",
+      "5.2 Activation of accessibility features", "5.3 Biometrics",
+      "5.4 Preservation of accessibility information during conversion", {"name": "5.5 Operable parts"},
+      "5.5.1 Means5.5 of operation", "5.5.2 Operable parts discernibility", {"name": "5.6 Locking or toggle controls"},
+      "5.6.1 Tactile or auditory status", "5.6.2 Visual status", "5.7 Key repeat", "5.8 Double-strike key acceptance",
+      "5.9 Simultaneous user actions"
+    ]
+  },
+  "6": {
+    "name": "ICT with Two-Way Voice Communication",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      "6.1 Audio bandwidth for speech", {"name": "6.2 Real-time text (RTT) functionality"}, "6.2.1.1 RTT communication",
+      "6.2.1.2 Concurrent voice and text", "6.2.2.1 Visually distinguishable display",
+      "6.2.2.2 Programmatically determinable send and receive direction", "6.2.2.3 Speaker identification",
+      "6.2.2.4 Visual indicator of Audio with RTT", "6.2.3 Interoperability", "6.2.4 RTT responsiveness",
+      "6.3 Caller ID", "6.4 Alternatives to voice-based services", {"name": "6.5 Video communication"},
+      {"name": "6.5.1 General (informative)"}, "6.5.2 Resolution", "6.5.3 Frame rate",
+      "6.5.4 Synchronization between audio and video", "6.5.5 Visual indicator of audio with video",
+      "6.5.6 Speaker identification with video (sign language) communication",
+      {"name": "6.6 Alternatives to video-based services (advisory only)"}
+    ]
+  },
+  "7": {
+    "name": "ICT with Video Capabilities",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "7.1 Caption processing technology"}, "7.1.1 Captioning playback", "7.1.2 Captioning synchronization",
+      "7.1.3 Preservation of captioning", "7.1.4 Captions characteristics", "7.1.5 Spoken subtitles",
+      "7.2.1 Audio description playback", "7.2.2 Audio description synchronization",
+      "7.2.3 Preservation of audio description", "7.3 User controls for captions and audio description"
+    ]
+  },
+  "8": {
+    "name": "Hardware",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "8.1.1 Generic requirements"}, "8.1.2 Standard connections", "8.1.3 Colour",
+      {"name": "8.2 Hardware products with speech output"}, "8.2.1.1 Speech volume range",
+      "8.2.1.2 Incremental volume control", "8.2.2.1 Fixed-line devices", "8.2.2.2 Wireless communication devices",
+      {"name": "8.3 Stationary ICT"}, "8.3.2.1 Unobstructed high forward reach",
+      "8.3.2.2 Unobstructed low forward reach", "8.3.2.3.1 Clear space ", "8.3.2.3.2 Obstructed (< 510 mm) forward reach",
+      "8.3.2.3.3 Obstructed (< 635 mm) forward reach", "8.3.2.4 Knee and toe clearance width", "8.3.2.5 Toe clearance",
+      "8.3.2.6 Knee clearance", "8.3.3.1 Unobstructed high side reach", "8.3.3.2 Unobstructed low side reach",
+      "8.3.3.3.1 Obstructed (≤ 255 mm) side reach", "8.3.3.3.2 Obstructed (≤ 610 mm) side reach", "8.3.4.1 Change in level",
+      "8.3.4.2 Clear floor or ground space", "8.3.4.3.2 Forward approach", "8.3.4.3.3 Parallel approach", "8.3.5 Visibility",
+      "8.3.6 Installation instructions", {"name": "8.4 Mechanically Operable parts"}, "8.4.1 Numeric keys",
+      "8.4.2.1 Means of operation of mechanical parts", "8.4.2.2 Force of operation of mechanical parts",
+      "8.4.3 Keys, tickets and fare cards", "8.5 Tactile indication of speech mode"
+    ]
+  },
+  "9": {
+    "name": "Web",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": []
+  },
+  "10": {
+    "name": "Non-Web Software",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "10.0 General (informative)"}, "10.1.1.1 through 10.4.1.3", "10.5 Caption positioning", "10.6 Audio description timing"
+    ]
+  },
+  "11": {
+    "name": "Software",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "11.0 General (informative)"}, "11.1.1.1 through 11.4.1.3", {"name": "11.5 Interoperability with assistive technology"},
+      {"name": "11.5.1 Closed functionality"}, {"name": "11.5.2 Accessibility services"}, {"name": "11.5.2.1 Platform accessibility service support for software that provides a user interface"},
+      {"name": "11.5.2.2 Platform accessibility service support for assistive technologies"},
+      "11.5.2.3 Use of accessibility services", "11.5.2.4 Assistive technology", "11.5.2.5 Object information",
+      "11.5.2.6 Row, column, and headers", "11.5.2.7 Values", "11.5.2.8 Label relationships",
+      "11.5.2.9 Parent-child relationships", "11.5.2.10 Text", "11.5.2.11 List of available actions",
+      "11.5.2.12 Execution of available actions", "11.5.2.13 Tracking of focus and selection attributes",
+      "11.5.2.14 Modification of focus and selection attributes", "11.5.2.15 Change notification",
+      "11.5.2.16 Modifications of states and properties", "11.5.2.17 Modifications of values and text",
+      {"name": "11.6 Documented accessibility usage"}, "11.6.1 User control of accessibility features",
+      "11.6.2 No disruption of accessibility features", "11.7 User preferences", {"name": "11.8 Authoring tools"},
+      {"name": "11.8.1 Content technology"}, "11.8.2 Accessible content creation",
+      "11.8.3 Preservation of accessibility information in transformations", "11.8.4 Repair assistance",
+      "11.8.5 Templates"
+    ]
+  },
+  "12": {
+    "name": "Documentation and Support Services",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "12.1 Product documentation"}, "12.1.1 Accessibility and compatibility features",
+      "12.1.2 Accessible documentation", {"name": "12.2 Support Services"},
+      "12.2.2 Information on accessibility and compatibility features", "12.2.3 Effective communication",
+      "12.2.4 Accessible documentation"
+    ]
+  },
+  "13": {
+    "name": "ICT Providing Relay or Emergency Service Access",
+    "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.01.01_60/en_301549v030101p.pdf#%5B%7B%22num%22%3A60%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C54%2C747%2C0%5D",
+    "items": [
+      {"name": "13.1 Relay services requirements"}, "13.1.2 Text relay services", "13.1.3 Sign relay services",
+      "13.1.4 Lip-reading relay services", "13.1.5 Captioned telephony services",
+      "13.1.6 Speech to speech relay services", "13.2 Access to relay services", "13.3 Access to emergency services"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+The point labeled 0 is called the origin. The points are equally spaced to the right of 0 and labeled with the
+counting numbers. When a number is paired with a point, it is called the coordinate of the point.
+
+The discovery of the number zero was a big step in the history of mathematics. Including zero with the counting numbers
+gives a new set of numbers called the whole numbers. Click on the red circle button.
+
+From Formula 7.1 of your book, you know that, for each sample size, the mean of all possible samples means equals the
+population mean. Using the applet below, you can make this fact plausible. Note the following:
+The first plot displays the population distribution (for which several options are available through the first drop-down
+list box). Each distribution can be changed interactively by clicking and dragging the mouse on the plot.
+The Custom option provides a blank plot on which a distribution can be constructed.
+When you click the Sample button, N simple random samples of size n are selected from the population.
+The sample statistics specified by the drop-down list boxes in the bottom two plots are updated for each sample.
+If N is set to 1 and n is at most 50, the display shows in an animated fashion the observations from the population
+dropping into the second plot and the appropriate summary statistics dropping into the third and fourth plots.
+If N is greater than 1, the second plot shows the sample data for the last sample only.
+To stop an animation, click the Reset button.
+The numerical values of summary statistics for each plot are shown in the panel to the left of the plot.
+Here we concentrate on the mean of the sample means, shown in green in the third plot.
+Select Uniform from the drop-down list box next to the first plot.
+What is the population mean?
+Use your answer from part (a) to determine the mean of all possible sample means for samples of size 10.
+If you took 1000 samples of size 10, roughly what value would you expect for the mean of the sample means of the
+1000 samples? Explain your answer.
+
+Use the applet to simulate 1000 samples of size 10 from the population.
+What is the mean of the sample means of the 1000 samples?
+Compare your answers in parts (c) and (e) and discuss any discrepancy that you observe.
+Repeat problem 1 for a Bell Shaped population distribution.
+Repeat problem 1 for a Skewed population distribution.

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <title>Тег FORM</title>
+</head>
+<script type="text/javascript">
+
+    function changeSubmit() {
+        let label = document.createElement('div');
+        label.textContent = "submitted!"
+        document.body.append(label);
+        return false;
+    }
+
+    function TabPress(name) {
+        let message = document.createElement('p');
+        let elem = document.getElementsByName(name)[0];
+        elem.addEventListener('keydown', function (event) {
+            if (event.defaultPrevented) {
+                return false;
+            }
+            var key = event.keyCode || event.which;
+            if (key === 9) {
+                elem.className = "tabbed";
+                elem.after(message);
+                message.textContent = "ERROR TAB";
+            }
+        });
+        return false;
+    }
+</script>
+
+<body>
+    <form method="post">
+        <div style="margin: 10px;">
+            <label for="name">Имя</label>
+            <input type="text" name="name" onfocus="return TabPress(name)">
+          </div>
+      
+          <div style="margin: 10px;">
+            <label for="email">E-mail</label>
+            <input type="email" name="email" onfocus="return TabPress(name)">
+          </div>
+        <button style="margin: 10px;" type="submit" onclick="return changeSubmit()">Submit</button>
+    </form>
+</body>
+</html>

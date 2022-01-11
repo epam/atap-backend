@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page for test_on_focus</title>
+</head>
+<script>
+    function addList(){
+        var ul = document.createElement('ul');
+        ul.setAttribute('id','proList');
+
+        productList = ['aaa','bbb','ccc','ddd'];
+
+        document.getElementById('renderList').appendChild(ul);
+        productList.forEach(renderProductList);
+
+        function renderProductList(element, index, arr) {
+            var li = document.createElement('li');
+            li.setAttribute('class','item');
+
+            ul.appendChild(li);
+
+            li.innerHTML=li.innerHTML + element;
+        }
+    }
+</script>
+
+<body>
+    <button onclick="addList();">renderList</button>
+    <div id="renderList"></div>
+</body>
+</html>

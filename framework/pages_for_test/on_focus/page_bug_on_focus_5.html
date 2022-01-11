@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page for test_on_focus</title>
+</head>
+<script>
+    function changeObject(){
+        var elem = document.getElementById("list");
+        elem.removeAttribute("hidden");
+    }
+</script>
+
+<body>
+    <button onfocus="changeObject();">change list</button>
+    <ul id="list" hidden>
+        <li>aaa</li>
+        <li>bbb</li>
+    </ul>
+</body>
+</html>

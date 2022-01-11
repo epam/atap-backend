@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page for test_on_focus</title>
+</head>
+<script>if (window.addEventListener) {
+    window.addEventListener("load", showAdvertisement, true);
+}
+if (window.attachEvent) {
+    window.attachEvent("onload", showAdvertisement);
+}
+function showAdvertisement(){
+    window.open('popup_window.html', '_blank', 'height=200,width=150');
+}
+</script>
+<body>
+<p>example</p>
+</body>
+</html>

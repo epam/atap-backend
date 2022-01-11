@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	
+	<title>Title</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style> 
+.checkbox{
+        width: 15px;
+        height: 15px;
+        background-color: rgb(201, 201, 201);
+        display: inline-block;
+}
+
+    
+.checkbox2{
+        width: 15px;
+        height: 15px;
+        background-color: rgb(255, 0, 0);
+        display: inline-block;
+}
+
+.choosen{
+        background-color: rgb(58, 58, 58);
+    }
+.hidden{
+        opacity: 0;
+}
+</style>
+
+</head>
+<body>
+    <fieldset>
+        <label id='first_label'>label div</label>
+        <div class="checkbox" id="checkbox_1">
+        </div><br>
+        <span class="checkbox">
+        <input type="checkbox" class='hidden'/>
+        </span>
+        <div>
+        <label id='input_label'>label input</label>
+        button
+        </div>
+		<div class="checkbox2" id="checkbox_2">
+        </div><br>
+    </fieldset>
+<script>
+  $('.checkbox').click( function(){
+      $(this).toggleClass('choosen')
+  } )
+  $('.checkbox2').click( function(){
+      $(this).toggleClass('choosen')
+  } )
+</script>
+</body>
+</html>
