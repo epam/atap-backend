@@ -4,7 +4,7 @@ import dill
 import numpy as np
 from pandas import DataFrame, to_numeric
 
-from .model.process_data import transformed_for_model
+from web_interface.api.framework_data.estimate_model_helpers.process_data import transformed_for_model
 
 numerical_features = [
     "page_load_time",
@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def ensure_data_types(frame):
-    if not all(dtype.kind in ["u", "i", "f"] for dtype in frame[numerical_features].dtypes):
+    if any(dtype.kind not in ["u", "i", "f"] for dtype in frame[numerical_features].dtypes):
         for feat in numerical_features:
             frame[feat] = to_numeric(frame[feat], downcast="float").round(3)
 
@@ -32,7 +32,12 @@ def ensure_data_types(frame):
 
 
 def get_prediction(X: list) -> np.ndarray:
+    # print("*" * 60)
+    # print("GET_PREDICTION")
+    # print("*" * 60)
     models = restore_model()
+
+    # print("X", X)
 
     df = ensure_data_types(
         DataFrame(
@@ -40,9 +45,12 @@ def get_prediction(X: list) -> np.ndarray:
             columns=database_columns,
         )
     )
-    LMBDA = -0.314
+    # print("DF", df)
+    LMBDA = -0.318052439670531
     df, _ = transformed_for_model(df, train=False)
+    # print("DF transformed", df)
     prediction = models.predict(df, LMBDA)
+    # print("PREDICTION", prediction)
     return prediction
 
 

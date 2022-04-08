@@ -8,7 +8,7 @@ class TestResults(models.Model):
     """
 
     class Meta:
-        db_table = 'test_results'
+        db_table = "test_results"
 
 
 class Test(models.Model):
@@ -16,45 +16,51 @@ class Test(models.Model):
     These are the results of a specific test for a specific 'task.Task',
     with a list of faulty elements, their further connection with the 'issue.Issue', etc.
     """
-    NOTRUN = 'NOTRUN'
-    WARN = 'WARN'
-    NOELEMENTS = 'NOELEMENTS'
-    ERROR = 'ERROR'
-    FAIL = 'FAIL'
-    READY = 'READY'
-    PASS = 'PASS'
+
+    NOTRUN = "NOTRUN"
+    WARN = "WARN"
+    NOELEMENTS = "NOELEMENTS"
+    ERROR = "ERROR"
+    FAIL = "FAIL"
+    READY = "READY"
+    PASS = "PASS"
 
     STATUS_CHOICES = (
-        (NOTRUN, 'NOTRUN'),
-        (WARN, 'WARN'),
-        (NOELEMENTS, 'NOELEMENTS'),
-        (ERROR, 'ERROR'),
-        (FAIL, 'FAIL'),
-        (READY, 'READY'),
-        (PASS, 'PASS')
+        (NOTRUN, "NOTRUN"),
+        (WARN, "WARN"),
+        (NOELEMENTS, "NOELEMENTS"),
+        (ERROR, "ERROR"),
+        (FAIL, "FAIL"),
+        (READY, "READY"),
+        (PASS, "PASS"),
     )
 
     name = models.CharField(max_length=1000)
     status = models.CharField(choices=STATUS_CHOICES, max_length=20)
     support_status = models.CharField(max_length=20)
+    estimated_testing_time = models.IntegerField(null=True)
+    estimated_screenshooting_time = models.IntegerField(null=True)
     checked_elements = models.TextField(null=True)
     test_results = models.ForeignKey(TestResults, on_delete=models.CASCADE)
     problematic_pages = models.TextField()
     manually = models.BooleanField(default=False)
 
     class Meta:
-        db_table = 'test'
+        db_table = "test"
 
 
 class AvailableTest(models.Model):
     """This is a list of tests that is static per build"""
+
     name = models.CharField(max_length=200)
     human_name = models.CharField(max_length=300)
     time_data = models.CharField(max_length=300, null=True)
-    groups = models.ManyToManyField('framework_data.AvailableTestGroup', related_name='available_tests', blank=True)
+    groups = models.ManyToManyField(
+        "framework_data.AvailableTestGroup", related_name="available_tests", blank=True
+    )
 
     class Meta:
-        db_table = 'available_test'
+        db_table = "available_test"
 
 
 class AvailableTestGroup(models.Model):
@@ -69,17 +75,18 @@ class AvailableTestGroup(models.Model):
     Best Practice - tests that are of a recommendatory nature.
                     If this checkbox is not selected, then the Best Practice section will be absent in the report.
     """
+
     name = models.CharField(max_length=255)
 
     class Meta:
-        db_table = 'available_test_group'
+        db_table = "available_test_group"
 
 
 class TestTiming(models.Model):
-    name = models.CharField(max_length=1000)
+    name = models.CharField(max_length=100)
     timestamp = models.DateTimeField(auto_now=True)
-    page_size_data = models.CharField(max_length=10000, null=True)  # for several page, if needed
+    page_size_data = models.CharField(max_length=500, null=True)
     run_times = models.IntegerField(default=1)
 
     class Meta:
-        db_table = 'test_timing'
+        db_table = "test_timing"

@@ -1,4 +1,5 @@
 import calendar
+import re
 from datetime import date
 from typing import List, Optional
 from collections import defaultdict
@@ -88,6 +89,8 @@ class AuditReport:
         self.date = {'month': calendar.month_name[dt.month],
                      'year': dt.year}
         self.wcag_version = '2.0' if wcag_2_dot_0_only else '2.1'
+
+        self.default_labels = {"Contrast Issues", "Other Issues", "Best Practices", "ARIA"}
 
     def __title(self):
         self.doc.add_picture('framework/report/epam_logo.png', height=Cm(0.89), width=Cm(2.54))
@@ -401,6 +404,8 @@ class AuditReport:
             self.issue_title[str(issue.id)] = f"Issue {chapter}.{i + 1} {name}"
 
     def __add_example(self, i, example, len_examples, delta_example=False):
+        if not example.important_example:
+            return
         counter = f' {i + 1}' if len_examples > 1 else ''
 
         title_run = self.doc.add_paragraph(style="Title heading 5").add_run("Example" + counter)
@@ -452,6 +457,13 @@ class AuditReport:
         if example.actual_result:
             parse_html(self.doc, example.actual_result, paragraph=self.doc.add_paragraph(style="Body Text"),
                        name=THEME_FONT, link_color=URL_COLOR)
+
+        if example.affected_resolutions:
+            res = re.findall(r'\d+', str(example.affected_resolutions))
+            style(self.doc.add_paragraph(style="Body Text").add_run("Affected Resolutions:"), bold=True)
+            style(self.doc.add_paragraph(style="Body Text").add_run(
+                f"The issue was found on resolution {res[0]} x {res[1]}"
+            ))
 
         # note
         if example.note:
@@ -566,7 +578,7 @@ class AuditReport:
         # Reference to standards
         self.doc.add_paragraph(style="Title heading 5").add_run("Reference to standards")
 
-        if issue.references:
+        if issue.references and issue.references != "None":
             parse_html(self.doc, issue.references, name=THEME_FONT, link_color=URL_COLOR)
         else:
             for wcag in issue.wcag.split(", "):
@@ -578,6 +590,31 @@ class AuditReport:
         self.doc.add_paragraph(style="Title heading 5").add_run("Priority")
         if issue.priority:
             parse_html(self.doc, issue.priority, name=THEME_FONT, link_color=URL_COLOR)
+
+        # Issue type labels
+        labels = {label.name for label in issue.labels.all()}
+        default_labels_used = self.default_labels.intersection(labels)
+        custom_labels_used = labels.difference(self.default_labels)
+
+        self.doc.add_paragraph(style="Title heading 5").add_run("Issue label")
+        if default_labels_used:
+            style(self.doc.add_paragraph(style="Body Text").add_run("Default:"), bold=True)
+            parse_html(
+                self.doc,
+                text=f", ".join(default_labels_used),
+                paragraph=self.doc.add_paragraph(style="Body Text"),
+                name=THEME_FONT,
+                link_color=URL_COLOR
+            )
+        if custom_labels_used:
+            style(self.doc.add_paragraph(style="Body Text").add_run("Custom:"), bold=True)
+            parse_html(
+                self.doc,
+                text=f", ".join(custom_labels_used),
+                paragraph=self.doc.add_paragraph(style="Body Text"),
+                name=THEME_FONT,
+                link_color=URL_COLOR
+            )
 
     def __add_issues(self, issues, header, chapter, severity='FAIL', page_break=True):
         self.doc.add_heading(f"{chapter}. {header}", level=2)

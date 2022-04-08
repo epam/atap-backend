@@ -100,6 +100,8 @@ def load_metadata():
         if header:
             header = False
             continue
+        if row[0].value == "":
+            continue
         problem_type_data[row[0].value] = {
             "intro": row[2].value.replace('_x000D_', '<br/>')
         }
@@ -110,6 +112,8 @@ def load_metadata():
         if header:
             header = False
             continue
+        if row[0].value == "":
+            continue
         problem_type_data[row[0].value]["expected_result"] = row[2].value
 
     header = True
@@ -117,6 +121,8 @@ def load_metadata():
     for row in workbook.sheet_by_name("Actual result").get_rows():
         if header:
             header = False
+            continue
+        if row[0].value == "":
             continue
         problem_type_data[row[0].value]["actual_result"] = row[2].value
 
@@ -126,6 +132,8 @@ def load_metadata():
         if header:
             header = False
             continue
+        if row[0].value == "":
+            continue
         problem_type_data[row[0].value]["type_of_disability"] = row[2].value
 
     header = True
@@ -133,6 +141,8 @@ def load_metadata():
     for row in workbook.sheet_by_name("Techniques").get_rows():
         if header:
             header = False
+            continue
+        if row[0].value == "":
             continue
         problem_type_data[row[0].value]["techniques"] = row[2].value
         problem_type_data[row[0].value]["techniques_2_0"] = row[3].value
@@ -143,6 +153,8 @@ def load_metadata():
         if header:
             header = False
             continue
+        if row[0].value == "":
+            continue
         problem_type_data[row[0].value]["recommendations"] = row[2].value
 
     header = True
@@ -151,6 +163,8 @@ def load_metadata():
         if header:
             header = False
             continue
+        if row[0].value == "":
+            continue
         problem_type_data[row[0].value]["priority"] = row[2].value
 
     header = True
@@ -158,6 +172,8 @@ def load_metadata():
     for row in workbook.sheet_by_name("Issues Titles").get_rows():
         if header:
             header = False
+            continue
+        if row[0].value == "":
             continue
         problem_type_data[row[0].value]["issue_type"] = row[1].value
         problem_type_data[row[0].value]["issue_title"] = row[2].value

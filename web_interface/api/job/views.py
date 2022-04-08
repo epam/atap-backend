@@ -1,75 +1,44 @@
 from typing import Union, List
 
-import django_filters
 from django.conf import settings
-from django.db.models import Subquery, OuterRef
 from django_filters.rest_framework import DjangoFilterBackend
+
 from drf_yasg.utils import swagger_auto_schema, no_body
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from web_interface.api.job.filters import JobAPIFilter
 from web_interface.api.job.serializers import (
-    JobSerializer, JobTaskSerializer, PrecalculateJobRequestSerializer, PrecalculateJobResponseSerializer,
-    SimplifiedJobSerializer
+    JobSerializer,
+    JobTaskSerializer,
+    EstimateJobTimeRequestSerializer,
+    EstimateJobTimeResponseSerializer,
+    SimplifiedJobSerializer,
 )
 from web_interface.api.project.permissions import get_available_projects
 from web_interface.apps.auth_user.permissions import UserDemoPermissionsAPIViewABC
 from web_interface.apps.job.models import Job
-from web_interface.apps.project.models import Project
-from web_interface.apps.report.models import ConformanceLevel, Issue, SuccessCriteriaLevel
-from web_interface.apps.task import tasks
 from web_interface.apps.task.models import Task
-
-
-class ListFilter(django_filters.Filter):
-    def filter(self, qs, value):
-        if not value:
-            return qs
-
-        self.lookup_expr = 'in'
-        values = value.split(',')
-        return super(ListFilter, self).filter(qs, values)
-
-
-class JobAPIFilter(django_filters.FilterSet):
-
-    project = django_filters.ModelChoiceFilter(queryset=Project.objects.all())
-    task_status = ListFilter(field_name="last_task_status", label="Task Status")
-
-    ordering = django_filters.OrderingFilter(
-        fields=(
-            ('name', 'name'),
-            ('project__name', 'project_name'),
-            ('last_task_status', 'task_status'),
-            ('last_test', 'last_test'),
-        ),
-    )
-
-    class Meta:
-        model = Job
-        fields = ('project',)
+from web_interface.apps.task.task_functional import callback_progress
+from web_interface.api.job.job_services import (
+    jobs_sorted_ran_last_query,
+    abort_job_tasks,
+    get_calculated_job_time,
+    get_estimated_job_time,
+    running_jobs_query,
+    created_jobs_number_query,
+    demo_subscription_ended_response,
+    task_queued_response,
+    create_job_clone,
+    save_latest_task,
+    copy_cloned_job_groups,
+)
 
 
 class JobViewSet(UserDemoPermissionsAPIViewABC, viewsets.ModelViewSet):
-    queryset = Job.objects.select_related(
-        'project'
-    ).prefetch_related(
-        'task_set', 'vpatreportparams_set', 'pages'
-    ).annotate(
-        last_task_status=Subquery(
-            Task.objects.filter(
-                target_job=OuterRef('pk'),
-                is_valid=True
-            ).order_by('-date_started')[:1].values('status')
-        ),
-        last_task_started=Subquery(
-            Task.objects.filter(
-                target_job=OuterRef('pk'),
-                is_valid=True
-            ).order_by('-date_started')[:1].values('date_started')
-        )
-    ).order_by('last_task_started')
+    queryset = jobs_sorted_ran_last_query()
     serializer_class = JobSerializer
     filter_backends = [DjangoFilterBackend]
     filter_class = JobAPIFilter
@@ -83,151 +52,90 @@ class JobViewSet(UserDemoPermissionsAPIViewABC, viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         tasks_qs = instance.task_set.filter(status__in=(Task.QUEUED, Task.RUNNING), is_valid=True)
-        for task in tasks_qs:
-            tasks.abort_task(task)
+        abort_job_tasks(tasks_qs)
         super().perform_destroy(instance)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: SimplifiedJobSerializer})
-    @action(methods=['GET'], detail=False, serializer_class=SimplifiedJobSerializer, pagination_class=None)
+    @action(methods=["GET"], detail=False, serializer_class=SimplifiedJobSerializer, pagination_class=None)
     def simplified(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-    @swagger_auto_schema(request_body=PrecalculateJobRequestSerializer,
-                         responses={status.HTTP_200_OK: PrecalculateJobResponseSerializer,
-                                    status.HTTP_400_BAD_REQUEST: PrecalculateJobRequestSerializer})
-    @action(methods=['POST'], detail=False)
-    def precalculate_job_length(self, request, pk=None):
-        serializer = PrecalculateJobRequestSerializer(data=request.data)
+    @swagger_auto_schema(
+        request_body=EstimateJobTimeRequestSerializer,
+        responses={
+            status.HTTP_200_OK: EstimateJobTimeResponseSerializer,
+            status.HTTP_400_BAD_REQUEST: EstimateJobTimeRequestSerializer,
+        },
+    )
+    @action(methods=["POST"], detail=False)
+    def get_mean_job_test_time(self, request, pk=None):
+        serializer = EstimateJobTimeRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
-        time = tasks.precalculate_job_length(
-            data['tests'],
-            data['pages']
-        )
-        response_serializer = PrecalculateJobResponseSerializer({'time': time})
+
+        job_best_guess_time = get_calculated_job_time(serializer)
+        response_serializer = EstimateJobTimeResponseSerializer({"time": job_best_guess_time})
+
         return Response(response_serializer.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(request_body=no_body, responses={status.HTTP_200_OK: JobTaskSerializer,
-                                                          status.HTTP_400_BAD_REQUEST: JobTaskSerializer})
-    @action(methods=['POST'], detail=True)
+    @swagger_auto_schema(
+        request_body=EstimateJobTimeRequestSerializer,
+        responses={
+            status.HTTP_200_OK: EstimateJobTimeResponseSerializer,
+            status.HTTP_400_BAD_REQUEST: EstimateJobTimeRequestSerializer,
+        },
+    )
+    @action(methods=["POST"], detail=False)
+    def estimate_job_test_time(self, request, pk=None):
+        serializer = EstimateJobTimeRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        job_trained_model_estimated_time = get_estimated_job_time(serializer)
+        response_serializer = EstimateJobTimeResponseSerializer({"time": job_trained_model_estimated_time})
+
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=no_body,
+        responses={status.HTTP_200_OK: JobTaskSerializer, status.HTTP_400_BAD_REQUEST: JobTaskSerializer},
+    )
+    @action(methods=["POST"], detail=True)
     def start_task(self, request, pk=None):
         if request.user.is_demo_user:
-            running_jobs_count = Job.objects.filter(
-                project__users=request.user,
-                task__status__in=(Task.QUEUED, Task.RUNNING)
-            ).distinct().count()
-            if running_jobs_count >= request.user.demo_permissions.running_jobs_quota:
-                return Response(
-                    data={
-                        'non_field_errors': [
-                            'The quota for execution jobs has been exceeded. '
-                            'Contact your administrator to change your subscription plan.'
-                        ]
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+            # * check demo limit
+            try:
+                return demo_subscription_ended_response(request, running_jobs_query)
+            except NameError:
+                pass
 
         job = self.get_object()
-        task_id = tasks.request_test_for_job(job)['task_id']
-        if task_id == -1:
-            return Response(
-                data={
-                    'non_field_errors': [
-                        'Task already in queue for this job'
-                    ]
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        serializer = JobTaskSerializer(Task.objects.get(id=task_id))
-        return Response(serializer.data)
-
-    @swagger_auto_schema(request_body=no_body, responses={status.HTTP_200_OK: JobSerializer,
-                                                          status.HTTP_400_BAD_REQUEST: JobSerializer})
-    @action(methods=['POST'], detail=True)
-    def clone(self, request, pk=None):
-        if request.user.is_demo_user:
-            jobs_created_count = Job.objects.filter(project__users=request.user).count()
-            if jobs_created_count >= request.user.demo_permissions.jobs_quota:
-                return Response(
-                    data={
-                        'non_field_errors': [
-                            'The quota for creating (over cloning) jobs has been exceeded. '
-                            'Contact your administrator to change your subscription plan.'
-                        ]
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-        old_job = self.get_object()
-
-        new_job = Job.objects.get(pk=old_job.pk)
-        new_job.pk = None
-        new_job.name = f'{new_job.name} (Copy)'
-        new_job.save()
-
-        test_results = None
-        conformance_levels = None
-        latest_task = Task.objects.filter(target_job=old_job).latest()
-
-        if latest_task:
-            latest_task.pk = None
-            test_results = latest_task.test_results
-            if test_results:
-                test_results.pk = None
-                test_results.save()
-
-                # Copying report params...
-                conformance_levels = ConformanceLevel.objects.filter(test_results=test_results)
-                for level in conformance_levels:
-                    level.pk = None
-                    level.test_results = test_results
-                    level.save()
-
-            latest_task.test_results = test_results
-            latest_task.target_job = new_job
-            latest_task.save()
+        task_id = callback_progress.request_test_for_job(job)["task_id"]
+        print("task_id", task_id)
 
         try:
-            old_test_results = Task.objects.filter(target_job=old_job).latest().test_results
-        except AttributeError:
-            pass
-        else:
-            # Copying issue groups...
-            for issue in Issue.objects.prefetch_related(
-                    'examples', 'examples__examplescreenshot_set'
-            ).filter(test_results=old_test_results):
-                issue.pk = None
-                issue.test_results = test_results
-                issue.save()
-                issue_reloaded = Issue.objects.get(pk=issue.pk)
-                for example in issue.examples.all():
-                    example.issue = issue_reloaded
-                    example.pk = None
-                    example.test_results = test_results
-                    example.save()
-                    for issue_screenshot in example.examplescreenshot_set.all():
-                        issue_screenshot.pk = None
-                        issue_screenshot.example = example
-                        issue_screenshot.save()
+            return task_queued_response(task_id)
+        except NameError:
+            serializer = JobTaskSerializer(Task.objects.get(id=task_id))
 
-                if conformance_levels:
-                    old_conformance_level = ConformanceLevel.objects.filter(
-                        test_results=test_results,
-                        issues=issue_reloaded
-                    )
-                    if old_conformance_level.count() > 0:
-                        conformance_level = ConformanceLevel.objects.get(
-                            test_results=test_results,
-                            WCAG=old_conformance_level.WCAG
-                        )
-                        conformance_level.issues.add(issue_reloaded)
-                        conformance_level.save()
+        return Response(serializer.data)
 
-            success_criteria_levels = SuccessCriteriaLevel.objects.filter(test_results=old_test_results)
-            for success_criteria_level in success_criteria_levels:
-                success_criteria_level.test_results = test_results
-                success_criteria_level.pk = None
-                success_criteria_level.save()
+    @swagger_auto_schema(
+        request_body=no_body,
+        responses={status.HTTP_200_OK: JobSerializer, status.HTTP_400_BAD_REQUEST: JobSerializer},
+    )
+    @action(methods=["POST"], detail=True)
+    def clone(self, request, pk=None):
+        if request.user.is_demo_user:
+            try:
+                demo_subscription_ended_response(request, created_jobs_number_query)
+            except NameError:
+                pass
+
+        old_job = self.get_object()
+        new_job = create_job_clone(old_job)
+        test_results, conformance_levels = save_latest_task(old_job, new_job)
+
+        copy_cloned_job_groups(old_job, test_results, conformance_levels)
 
         serializer = self.get_serializer(new_job)
+
         return Response(serializer.data)

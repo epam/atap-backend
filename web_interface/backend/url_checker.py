@@ -1,9 +1,9 @@
 import logging
 import re
+from dataclasses import dataclass
 from typing import Optional
 
 import requests
-from dataclasses import dataclass
 from lxml import html
 from selenium.common.exceptions import TimeoutException
 from selenium import webdriver
@@ -20,7 +20,7 @@ ERROR_KEYWORDS = (
 )
 
 
-@dataclass
+@dataclass(frozen=True)
 class CheckUrlResponse:
     message: str
     is_valid: float
@@ -29,7 +29,7 @@ class CheckUrlResponse:
 
 
 def get_title_from_response(response: requests.Response) -> Optional[str]:
-    """Receive title from response body. Is title is empty returns None"""
+    """Receive title from response body. Is title is empty returns None."""
     response.encoding = 'utf-8'
     parsed_body = html.fromstring(response.text)
     try:
@@ -46,14 +46,12 @@ def check_url(url: str) -> CheckUrlResponse:
     """
     logger.info('Checking %s', url)
 
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+    }
+
     try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
-        }
         requests_response = requests.get(url, headers=headers)
-        actual_url = requests_response.url
-        if actual_url != url:
-            logger.warning('Actual URL is %s', actual_url)
     except requests.exceptions.MissingSchema:
         return_message = f'Invalid URL \'{url}\': No schema supplied.'
         logger.warning(return_message)
@@ -63,6 +61,10 @@ def check_url(url: str) -> CheckUrlResponse:
         return_message = 'URL check failed: cannot connect'
         logger.warning(return_message)
         return CheckUrlResponse(message=return_message, is_valid=False)
+
+    actual_url = requests_response.url
+    if actual_url != url:
+        logger.warning('Actual URL is %s', actual_url)
 
     response_status_code = requests_response.status_code
 

@@ -81,8 +81,7 @@ def is_filename(vocabulary):
     filenames = [
         word for word in vocabulary if [*filter(lambda exp, word=word: re.match(f".*\{exp}", word), EXPANSIONS)]
     ]
-
-    return 1 <= len(filenames) >= len(vocabulary) - 1  # * only filename or one with one other word
+    return 1 <= len(filenames) <= 8
 
 
 def is_gibberish(vocabulary):
@@ -116,7 +115,7 @@ def alt_is_not_valid(alt):
 
 
 def check_image_alt(image: Element):
-    print(f"\rAnalyzing images {test.images.index(image) + 1}/{len(test.images)}", end="", flush=True)
+    # print(f"\rAnalyzing images {test.images.index(image) + 1}/{len(test.images)}", end="", flush=True)
 
     alt = image.get_attribute(test.driver, "alt")
     # * empty alt is allowed
@@ -187,14 +186,15 @@ def test(webdriver_instance: webdriver.Firefox, activity, element_locator: Eleme
         try:
             # * some images could be updated in carousel, so webelements will be stale
             # * still screenshots do not perform duplicates
-            print("*************************")
-            print("wait up to 5 s")
+            # print("*************************")
+            # print("wait up to 5 s")
             img = WebDriverWait(webdriver_instance, 5).until(
                 presence_of_element_located((By.CSS_SELECTOR, selector))
             )
             test.images.append(Element(img, webdriver_instance))
         except TimeoutException:
-            print(f"Timeout reaching\t{selector}")
+            pass
+            # print(f"Timeout reaching\t{selector}")
 
     if not test.images:
         return no_elements_status()
@@ -202,5 +202,5 @@ def test(webdriver_instance: webdriver.Firefox, activity, element_locator: Eleme
     Element.safe_foreach(test.images, check_image_alt)
 
     result = result_status(test.images, failed=test.failed_images)
-    print(result)
+    # print(result)
     return result

@@ -180,6 +180,8 @@ class SuperTest:
             print()
             return False
         try:
+            if not element.get_element(self.driver).is_displayed():
+                return False
             sel_element = element.get_element(self.driver)
             self.actions.move_to_element(sel_element)
             self.actions.perform()
@@ -204,8 +206,8 @@ class SuperTest:
             element.click(self.driver)
             return True
         except Exception as bug:
-            print(bug)
-            print("At _click_activation - Click")
+            # print(bug)
+            # print("At _click_activation - Click")
             return False
 
     def _enter_activation(self, element: Element) -> bool:
@@ -236,7 +238,7 @@ class SuperTest:
         try:
             element.get_element(self.driver).send_keys(word)
         except Exception as fail_3:
-            print(f">>>>Cannot send {word}:\n", fail_3)
+            # print(f">>>>Cannot send {word}:\n", fail_3)
             return False
 
         return True
@@ -281,7 +283,7 @@ class DetectingTest(SuperTest):
         try:
             current_elements = self.locator.get_all_by_xpath(self.driver, "//body//*")
         except UnexpectedAlertPresentException as bug:
-            print(">>>Unexpected behavior")
+            # print(">>>Unexpected behavior")
             raise bug
         return current_elements
 

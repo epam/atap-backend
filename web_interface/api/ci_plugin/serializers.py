@@ -6,52 +6,38 @@ from web_interface.apps.task.models import Task
 
 
 class CIPluginJobSerializer(serializers.ModelSerializer):
-    project_name = serializers.CharField(source='project.name', read_only=True)
+    project_name = serializers.CharField(source="project.name", read_only=True)
 
     class Meta:
         model = Job
-        fields = (
-            'id',
-            'name',
-            'project',
-            'project_name',
-            'date_created'
-        )
+        fields = ("id", "name", "project", "project_name", "date_created")
 
 
 class CIPluginJobTaskSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Task
-        fields = (
-            'id',
-            'celery_task_id'
-        )
+        fields = ("id", "celery_task_id")
 
 
 class CIPluginTestSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Test
-        fields = (
-            'name',
-            'status'
-        )
+        fields = ("name", "status")
 
 
 class CIPluginTaskSerializer(serializers.ModelSerializer):
-    tests = CIPluginTestSerializer(source='test_results.test_set', many=True, read_only=True)
+    tests = CIPluginTestSerializer(source="test_results.test_set", many=True, read_only=True)
 
     class Meta:
         model = Task
         fields = (
-            'id',
-            'date_started',
-            'celery_task_id',
-            'is_valid',
-            'status',
-            'message',
-            'tests'
+            "id",
+            "date_started",
+            "celery_task_id",
+            "is_valid",
+            "status",
+            "message",
+            "tests",
         )
 
 

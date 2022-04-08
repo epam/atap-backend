@@ -237,7 +237,7 @@ class ButtonsPurpose(SuperTest):
             if element.tag_name in ("div", "span"):
                 html = element.source
                 # if re.search(r"<code>|<br>|<span>|<h2>|<p>", html):
-                if re.search(r"<code>|<br>|<h2>|<p>", html) or len(element.get_text(self.driver)) < 10:
+                if re.search(r"<code|<br|<h2|<p", html) or len(element.get_text(self.driver)) < 10:
                     continue
             #   Was disabled because of "WARN" status
             #     elif not re.search(POSSIBLE_KEYWORDS, html):

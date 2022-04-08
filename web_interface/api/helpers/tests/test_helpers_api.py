@@ -42,21 +42,21 @@ class AuthValidationAPIViewTestCase(CommonAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.json()["is_valid"])
 
-    def test_auth_modal(self):
-        url = reverse("api-auth-validation")
-        post_data = {
-            "url": "https://www.sephora.com/",
-            "auth_type": "modal",
-            "auth_setting": {
-                "activator": "#account_drop_trigger",
-                "login": "sephoralogintest@gmail.com",
-                "password": "Xa35qXCExBUf",
-            },
-        }
+    # def test_auth_modal(self):
+    #     url = reverse("api-auth-validation")
+    #     post_data = {
+    #         "url": "https://juicebro.com/en/",
+    #         "auth_type": "modal",
+    #         "auth_setting": {
+    #             "activator": "a[href='https://juicebro.com/en/my-account/']",
+    #             "login": "victor.hugo.77@list.ru",
+    #             "password": "Checkertest123",
+    #         },
+    #     }
 
-        response = self.client.post(url, data=post_data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(response.json()["is_valid"])
+    #     response = self.client.post(url, data=post_data, format="json")
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertTrue(response.json()["is_valid"])
 
     # def test_auth_alert(self):
     # url = reverse("api-auth-validation")

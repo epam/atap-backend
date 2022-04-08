@@ -14,9 +14,6 @@ import os
 import uuid
 from datetime import timedelta
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -89,6 +86,7 @@ INSTALLED_APPS = [
     'web_interface.apps.task',
     'web_interface.apps.task_planner',
     'web_interface.apps.jira',
+    'web_interface.apps.system',
 ]
 
 AUTH_USER_MODEL = 'auth_user.AuthUser'
@@ -115,8 +113,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'web_interface.api.pagination.PageNumberPaginationExtended',
     'PAGE_SIZE': 20
 }
-
-RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY", default=None)
 
 # temporary disabled for development productivity
 # API_TOKEN_EXPIRE_TIME = timedelta(days=1)
@@ -181,11 +177,6 @@ CACHES = {
         'LOCATION': 'unique-snowflake'
     }
 }
-
-VAULT_URL = os.environ.get("VAULT_URL", default="http://vault:8200")
-VAULT_NAMESPACE = os.environ.get("VAULT_NAMESPACE", default="bss-dev/epm-acc")
-VAULT_ROLE_ID = os.environ.get("VAULT_ROLE_ID", default=None)
-VAULT_SECRET_ID = os.environ.get("VAULT_SECRET_ID", default=None)
 
 TEMPLATES = [
     {
@@ -274,15 +265,6 @@ STATIC_ROOT = os.getenv('WEB_INTERFACE_STATIC_ROOT', './static')
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = ''
 DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600
-
-SENTRY_DSN = os.getenv('SENTRY_DSN', 'http://9b12af32a2834f958afd1a076db60202@host.docker.internal:9000/1')
-
-sentry_sdk.init(
-    dsn=SENTRY_DSN,
-    environment=CURRENT_ENV,
-    release=APPLICATION_BUILD_REVISION,
-    integrations=[DjangoIntegration()]
-)
 
 # LOGGING = {
 #     'version': 1,

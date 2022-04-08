@@ -5,7 +5,7 @@ import tempfile
 
 from django.db.models import Subquery
 from django.http import FileResponse
-from django_filters import DateTimeFromToRangeFilter
+from django_filters import DateTimeFilter
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from drf_yasg.utils import swagger_auto_schema, no_body
 from rest_framework import viewsets, filters, status, mixins
@@ -60,6 +60,7 @@ class SitemapTaskViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, mixin
         service.abort_sitemap_task(sitemap_task)
         serializer = AbortTaskSerializer({'status': 'Sitemap task aborted'})
         return Response(serializer.data)
+
 
 class TaskViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     queryset = Task.objects.select_related('target_job', 'target_job__project').order_by('pk')
@@ -287,20 +288,25 @@ class TaskViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.Destr
 
 
 class TaskReportsFilter(FilterSet):
-    date_created = DateTimeFromToRangeFilter()
+    date_created_after = DateTimeFilter(field_name='date_created', lookup_expr='gte')
+    date_created_before = DateTimeFilter(field_name='date_created__date', lookup_expr='lte')
 
     class Meta:
         model = Report
-        fields = ['status', 'task', 'delta_starting_task', 'date_created', 'task__target_job__name', 'task__target_job__id', 'task__target_job__project__id', 'task__date_started']
+        fields = ['status', 'task', 'delta_starting_task', 'date_created', 'task__target_job__name',
+                  'task__target_job__id', 'task__target_job__project__id', 'task__date_started']
 
 
-class TaskReportsViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Report.objects.select_related("task", "task__target_job", "task__target_job__project").order_by('-date_created')
+class TaskReportsViewSet(viewsets.ReadOnlyModelViewSet, mixins.DestroyModelMixin):
+    queryset = Report.objects.select_related("task", "task__target_job", "task__target_job__project") \
+        .order_by('-date_created')
     serializer_class = ReportSerializer
     filter_class = TaskReportsFilter
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ['status', 'task', 'delta_starting_task', 'date_created', 'task__target_job__name', 'task__target_job__id', 'task__target_job__project__id', 'task__date_started']
-    ordering_fields = ['status', 'task', 'delta_starting_task', 'date_created']
+    filterset_fields = ['status', 'task', 'delta_starting_task', 'task__target_job__name', 'task__target_job__id',
+                        'task__target_job__project__id', 'task__date_started']
+    ordering_fields = ['status', 'task', 'delta_starting_task', 'date_created', 'task__target_job__project__name',
+                       'task__target_job__name', 'task__target_job__name']
 
     def filter_queryset(self, queryset):
         queryset = queryset.filter(task__target_job__project__in=get_available_projects(self.request.user))

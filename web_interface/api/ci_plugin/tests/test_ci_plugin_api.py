@@ -1,3 +1,4 @@
+import time
 from unittest import mock
 
 from django.urls import reverse
@@ -46,18 +47,18 @@ class CIPluginJobViewSetTestCase(SeparatedClientsAPITestCase):
         response = self.api_key_client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    @mock.patch('web_interface.apps.task.tasks')
+    @mock.patch('web_interface.apps.task.task_functional.callback_progress.request_test_for_job')
     def test_jobs_start_task(self, mock_obj):
         url = reverse('api:ci-plugin-job-start-task', args=(self.job.id,))
         post_data = {'project': self.project.id}
 
-        mock_obj.request_test_for_job.return_value = {
+        mock_obj.return_value = {
             'task_id': self.task.id
         }
 
         response = self.api_key_client.post(url, data=post_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        mock_obj.request_test_for_job.assert_called_with(self.job)
+        mock_obj.assert_called_with(self.job)
         self.assertIn('id', response.json())
         self.assertIn('celery_task_id', response.json())
 
@@ -94,12 +95,12 @@ class CIPluginTaskViewSetTestCase(SeparatedClientsAPITestCase):
         self.assertEqual(response.json()['tests'][0]['status'], self.test.status)
         self.assertEqual(response.json()['tests'][0]['name'], self.test.name)
 
-    @mock.patch('web_interface.apps.task.tasks')
+    @mock.patch('web_interface.apps.task.tasks.abort_task')
     def test_ci_plugin_task_abort_task(self, mock_obj):
         url = reverse('api:ci-plugin-task-abort-task', args=(self.task.id,))
-        mock_obj.abort_task.side_effect = lambda x: None
+        mock_obj.side_effect = lambda x: None
 
         response = self.api_key_client.post(url, format='json')
-        mock_obj.abort_task.assert_called_with(self.task)
+        mock_obj.assert_called_with(self.task)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json()['status'], 'Task Aborted')

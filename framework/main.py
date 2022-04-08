@@ -4,8 +4,7 @@ import time
 import json
 import logging
 import tempfile
-
-logger = logging.getLogger("framework.main")
+import uuid
 
 from framework import request_limiter
 from framework import activity
@@ -13,13 +12,16 @@ from framework.parallelization import run_tests_in_parallel
 from framework import test_system
 from framework import webdriver_manager
 
+logger = logging.getLogger("framework.main")
+
 
 def discover_and_run(
-        project_info, filter_test=None,
+        project_info,
+        filter_test=None,
         filter_category=None,
         run_axe_tests=None,
         progress_report_callback=None,
-        testing=False,
+        testing: bool = False,
         cancelled_tests=None,
 ):
     if cancelled_tests is None:
@@ -34,6 +36,7 @@ def discover_and_run(
         raise ValueError("No pages to test!")
 
     for page_info in project_info["page_infos"]:
+        page_info["name"] += f"_{uuid.uuid4()}"
         # if project_info["enable_popup_detection"]:
         #     logger.info(">Duplicating activities to test the page both with popups and without")
         #
@@ -87,11 +90,25 @@ def discover_and_run(
             else:
                 tests[page_info["name"]+"_"+"Main Activity"] = test_system.load_tests_with_dependencies(filter_test, filter_category)
 
-    return run_tests(tests=tests, run_axe_tests=run_axe_tests, project_info=project_info, progress_report_callback=progress_report_callback, testing=testing, cancelled_tests=cancelled_tests)
+    return run_tests(
+        tests=tests,
+        run_axe_tests=run_axe_tests,
+        project_info=project_info,
+        progress_report_callback=progress_report_callback,
+        testing=testing,
+        cancelled_tests=cancelled_tests,
+    )
 
 
-def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=None, testing=False, do_test_merge=True,
-              cancelled_tests=None):
+def run_tests(
+        project_info,
+        tests: dict,
+        run_axe_tests=None,
+        progress_report_callback=None,
+        testing: bool = False,
+        do_test_merge=True,
+        cancelled_tests=None,
+):
     if cancelled_tests is None:
         cancelled_tests = []
     if len(tests.values()) == 0:
@@ -143,11 +160,15 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
 
         activities = list()
         for page_info in project_info['page_infos']:
+            page_resolution = page_info["page_resolution"]
             if page_info["url"] != "":
                 if progress_report_callback is not None:
                     progress_report_callback({
                         "overall_progress": f"Loading activities for {page_info['name']}"
                     })
+                if page_resolution:
+                    w, h = page_resolution.split("x")
+                    webdriver_instance.set_window_size(width=w, height=h)
                 webdriver_instance.get(page_info["url"])
             options = page_info["options"] if "options" in page_info else ''
 
@@ -155,7 +176,14 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
             if "activities" in page_info:
                 page_activities = activity.load_activities(page_info, webdriver_instance)
             else:
-                page_activities = [activity.Activity(name="Main Activity", url=page_info["url"], options=options, page_after_login=page_info["page_after_login"], commands=[])]
+                page_activities = [activity.Activity(
+                    name="Main Activity",
+                    url=page_info["url"],
+                    options=options,
+                    page_after_login=page_info["page_after_login"],
+                    commands=[],
+                    page_resolution=page_resolution,
+                )]
 
             if "enable_popup_detection" in project_info and project_info["enable_popup_detection"]:
                 new_page_activities = list()
@@ -172,7 +200,8 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                         url=page_activity.url,
                         options=page_activity.options,
                         page_after_login=page_activity.page_after_login,
-                        commands=commands_without_popup
+                        commands=commands_without_popup,
+                        page_resolution=page_resolution,
                     )
                     new_page_activities.append(activity_without_popup)
 
@@ -188,7 +217,8 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                         url=page_activity.url,
                         options=page_activity.options,
                         page_after_login=page_activity.page_after_login,
-                        commands=commands_with_popup
+                        commands=commands_with_popup,
+                        page_resolution=page_resolution,
                     )
                     new_page_activities.append(activity_with_popup)
 
@@ -209,7 +239,10 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                 for page_info in project_info["page_infos"]:
                     if page_info["url"] in config["urls"]:
                         config["urls"][sys.argv[1]]["url"] = sys.argv[1]
-                        activities.extend(activity.load_activities(config["urls"][page_info["url"]], webdriver_instance))
+                        activities.extend(activity.load_activities(
+                            config["urls"][page_info["url"]],
+                            webdriver_instance,
+                        ))
             if "num_threads" in config:
                 num_threads = config["num_threads"]
         except FileNotFoundError:
@@ -221,7 +254,13 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
         num_threads = int(os.environ.get("THREAD_COUNT", 4))
         for page_info in project_info["page_infos"]:
             options = page_info["options"] if "options" in page_info else ''
-            activities.append(activity.Activity(name=page_info["name"], url=page_info["url"], options=options, page_after_login=page_info["page_after_login"], commands=[]))
+            activities.append(activity.Activity(
+                name=page_info["name"],
+                url=page_info["url"],
+                options=options,
+                page_after_login=page_info["page_after_login"],
+                commands=[],
+            ))
 
     if len(tests.values()) == 0:
         logger.info("No tests selected, nothing to test")
@@ -256,7 +295,6 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
         do_test_merge=do_test_merge,
         cancelled_tests=cancelled_tests
     )
-
     if do_test_merge:
         tests_values_fixed_order = list(tests.values())
 
@@ -267,14 +305,6 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                         test.merge_other_test(secondary_test)
 
         tests = tests_values_fixed_order[0]
-        #
-        # for test in tests:
-        #     print(f"Existed {test.name}")
-        #
-        # if pseudo_tests is not None:
-        #     for test in pseudo_tests:
-        #         print(f"Added {test.name}")
-        #     tests.extend(pseudo_tests)
 
     if testing:
         logger.info(f"Took {time.time() - time_start}")
@@ -295,6 +325,8 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                 "thread_count": 0
             })
         webdriver_instance.maximize_window()
+        if cur_activity.page_resolution:
+            webdriver_instance.set_window_size(*cur_activity.page_resolution)
         cur_activity.get(webdriver_instance)
         time.sleep(5)
 
@@ -305,7 +337,7 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                 progress_report_callback({
                     "page_screenshot": {
                         "url": cur_activity.url,
-                        "image": img_file.read()
+                        "image": img_file.read(),
                     }
                 })
     manager.release(webdriver_instance)
@@ -358,8 +390,6 @@ def run_tests(project_info, tests, run_axe_tests=None, progress_report_callback=
                             logger.info(f">   > problem: '{problematic_element['problem']}', source:'{problematic_element['element'].source[:100] if len(problematic_element['element'].source) > 100 else problematic_element['element'].source}'")
                         else:
                             logger.info(f">   > problem: '{problematic_element['problem']}', source:'{problematic_element['source'][:100] if len(problematic_element['source']) > 100 else problematic_element['source']}'")
-
-    # generate_reports(tests, project_info["audit_reports"], project_info["vpat_reports"], progress_report_callback, project_info, filter_test)
 
     logger.info(f"Took {time.time() - time_start}")
     return tests

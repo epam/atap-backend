@@ -1,4 +1,5 @@
 import logging
+import threading
 import sys
 import time
 import traceback
@@ -10,8 +11,6 @@ from selenium import webdriver
 
 from framework import xlsdata, activity, vpat
 from framework.element_locator import DEFAULT_TARGET_ELEMENTS, ElementLocator
-
-# from framework.test_system import logger, MIN_FRAMEWORK_VERSION, TestMalformedException, WCAG_REGEX, STATUSES
 
 MIN_FRAMEWORK_VERSION = 2
 
@@ -34,6 +33,7 @@ class Test:
         self.category = category
         self.name = name[:-3]
         self.execution_time = None
+        self.timing_event = None
         self.message = None
         self.depends = []
         self.problematic_elements = []
@@ -41,7 +41,7 @@ class Test:
         self.result = None
         self.visible = True
         self.framework_version = 0
-        self.finished_callback = finished_callback
+        # ? never used self.finished_callback = finished_callback
         self.problematic_pages = []
         test_metadata = xlsdata.get_data_for_issue(self.name)
         self.human_name = test_metadata["issue_type"]
@@ -74,7 +74,7 @@ class Test:
             self.webdriver_restart_required = test_module.webdriver_restart_required
         except AttributeError:
             self.webdriver_restart_required = True
-            logger.warning(f"===>webdriver_restart_required not defined, assuming True")
+            logger.warning("===>webdriver_restart_required not defined, assuming True")
 
         try:
             self.test_func = test_module.test
@@ -117,11 +117,11 @@ class Test:
     def merge_other_test(self, other_test):
         if other_test.status not in STATUSES:
             logger.error(f"Invalid status for other test {other_test.name}:{other_test.status}, not merging")
-            status = "ERROR"
             return
         if STATUSES.index(other_test.status) > STATUSES.index(self.status):
             self.status = other_test.status
         self.checked_elements.update(other_test.checked_elements)
+
         for element in other_test.problematic_elements:
             for existing_element in self.problematic_elements:
                 if element["element"] == existing_element["element"]:
@@ -131,9 +131,31 @@ class Test:
                     break
             else:
                 self.problematic_elements.append(element)
+
         for problematic_page in other_test.problematic_pages:
             self.problematic_pages.append(problematic_page)
+
         self.run_times.extend(other_test.run_times)
+
+    def set_interval(self, worker, *args, seconds=1):
+        def interval_loop():
+            while not self.timing_event.wait(seconds):
+                worker(*args)
+
+        thread = threading.Thread(target=interval_loop)
+
+        thread.daemon = True
+        thread.start()
+
+    def update_execution_time(self, start_time):
+        """During test run
+        Calculate difference between the test start time and current time
+        Update execution_time of test
+
+        Args:
+            start_time (int): test start execution timestamp
+        """
+        self.execution_time = round(time.time() - start_time)
 
     def run(
         self,
@@ -149,8 +171,11 @@ class Test:
         test_logger.info(f"==>Running '{self.human_name}'")
         self.status = "RUNNING"
         test_logger.info("===>START")
-        start_time = time.time()
         try:
+            self.timing_event = threading.Event()
+            start_time = time.time()
+
+            self.set_interval(self.update_execution_time, start_time)
             if dependencies is None:
                 result = self.test_func(
                     webdriver_instance=webdriver_instance, activity=activity, element_locator=element_locator
@@ -169,6 +194,9 @@ class Test:
             self.status = "ERROR"
             self.message = f"Exception during text execution:{e}"
             self.problematic_pages.append(f"{activity.url} ({activity.name})")
+
+            self.timing_event.set()
+
             return self.status
         try:
             if result["status"] in STATUSES:
@@ -200,6 +228,9 @@ class Test:
                 self.status = "ERROR"
                 self.message = f"Invalid status:'{result['status']}'"
                 test_logger.error(f"===>Invalid status '{result['status']}'", end="")
+
+            important_examples = 0
+            max_important_examples = 5
 
             for problematic_element in self.problematic_elements:
                 if "element" not in problematic_element:
@@ -234,13 +265,21 @@ class Test:
                         return self.status
                 else:
                     problematic_element["severity"] = "FAIL"
+                if important_examples < max_important_examples:
+                    important_examples += 1
+                    problematic_element["important_example"] = True
+                else:
+                    problematic_element["important_example"] = False
                 problematic_element["uuid"] = uuid.uuid4().hex
         except TypeError:
             test_logger.error("===>Test function did not return a dict")
             self.status = "ERROR"
             self.message = "Test function did not return a dict"
+        finally:
+            self.timing_event.set()
 
-        run_time = int(time.time() - start_time)
-        test_logger.info(f"===>OK, took {run_time}s on {activity.name} ({activity.url})")
-        self.run_times.append((activity.url, activity.name, run_time))
+        test_logger.info(f"===>OK, took {self.execution_time}s on {activity.name} ({activity.url})")
+
+        self.run_times.append((activity.url, activity.name, self.execution_time))
+
         return self.status

@@ -54,34 +54,21 @@ class AuthValidationAPIView(APIView):
         },
     )
     def post(self, request, format=None):
-        # print("*" * 60)
-        # print("*" * 60)
-        # print("post AuthValidationAPIView")
-        # print("*" * 60)
-        # print("*" * 60)
         serializer = AuthValidationSerializer(data=request.data)
-        # print("serializer AuthValidationSerializer")
         if serializer.is_valid():
-            # print("serializer.is_valid")
             validated_url = serializer.validated_data["url"]
             validated_type = serializer.validated_data["auth_type"]
             validated_auth_setting = serializer.validated_data["auth_setting"]
-            # print("validated_url", validated_url)
-            # print("validated_type", validated_type)
-            # print("validated_auth_setting", validated_auth_setting)
+
             check_auth_response = AuthenticationChecker(
                 validated_url, validated_type, validated_auth_setting
             ).execute()
-            # print("****************************")
-            # print("in AuthValidationAPIView")
-            # print("check_auth_response", check_auth_response)
+
             response_serializer = AuthValidationResponseSerializer(
                 {"is_valid": check_auth_response.is_valid, "message": check_auth_response.message}
             )
-            # print("response_serializer", response_serializer.data)
-            # print("RETURN VALID", response_serializer.data)
+
             return Response(response_serializer.data)
-        # print("RETURN INVALID", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

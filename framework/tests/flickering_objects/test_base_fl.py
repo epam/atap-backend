@@ -115,7 +115,6 @@ def get_css_gifs(dr: webdriver, elements: List[Element], name_folder: str):
 
 def test(webdriver_instance: webdriver.Chrome, activity: Activity, element_locator: ElementLocator):
     activity.get(webdriver_instance)
-    wait_for_page_load(webdriver_instance)
     path_folder = tempfile.TemporaryDirectory(prefix="images_")
     gifs = get_gifs(webdriver_instance,
                     element_locator.get_all_by_xpath(webdriver_instance, "//img"),

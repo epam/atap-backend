@@ -1,10 +1,7 @@
 import json
 from re import search
 
-from framework.tools.login_helper_script import autologin_tool_script, login_info_js
-from framework import await_page_load
 from selenium.common.exceptions import (
-    NoSuchElementException,
     NoAlertPresentException,
     TimeoutException,
     StaleElementReferenceException,
@@ -16,6 +13,9 @@ from selenium.common.exceptions import (
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+
+from framework import await_page_load
+from framework.tools.login_helper_script import autologin_tool_script, login_info_js
 
 
 email_regex = "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
@@ -115,12 +115,13 @@ def click_modal_activator(driver, selector):
 
 
 def _proceed_to_login_page(driver, url):
-    # print("_proceed_to_login_page")
-    driver.set_page_load_timeout(20)
+    driver.set_page_load_timeout(40)
 
-    # try:
-    driver.get(url)  # * login page url activator
-    await_page_load.wait_for_page_load(driver)
+    try:
+        driver.get(url)
+    except TimeoutException:
+        print(f"Failed to open {url} in 40s\nWaiting for page load...")
+        await_page_load.wait_for_page_load(driver)
 
 
 def memorize_authentication(webdriver_instance, auth_state):
@@ -132,11 +133,10 @@ def auth_by_page(driver, auth_options, modal=False):
     send_auth.driver = driver
 
     if modal:
+        await_page_load.wait_for_page_load(driver)
         click_modal_activator(driver, auth_options["activator"])
     else:
         _proceed_to_login_page(driver, auth_options["activator"])
-
-    await_page_load.wait_for_page_load(driver)
 
     login_type = _get_login_type(auth_options.get("login"))
 
@@ -146,15 +146,14 @@ def auth_by_page(driver, auth_options, modal=False):
 
     no_password = not password_fields
     send_auth(auth_info, auth_options, no_password=no_password)
-    await_page_load.wait_for_page_load(driver)
 
     if not password_fields:
+        await_page_load.wait_for_page_load(driver)
         login_info = _get_login_info(driver, login_type)
 
         # * submit again with login and password
         auth_info = _extract_login_info(login_info)
         send_auth(auth_info, auth_options, no_password=False)
-        await_page_load.wait_for_page_load(driver)
 
 
 def auth_by_modal(driver, auth_options):
@@ -189,16 +188,17 @@ def auth_by_alert(driver, auth_options: str):
     # * handle string to iterator for recursive alerts
     auth_options = type(auth_options).__name__ == "dict_keyiterator" and auth_options or iter(auth_options)
 
+    await_page_load.wait_for_page_load(driver)
     try:
-        WebDriverWait(driver, timeout=2).until(expected_conditions.alert_is_present())
+        WebDriverWait(driver, timeout=1).until(expected_conditions.alert_is_present())
         prompt = driver.switch_to.alert
         prompt.send_keys(next(auth_options))
         prompt.accept()
 
-        if WebDriverWait(driver, timeout=2).until(expected_conditions.alert_is_present()):
+        if WebDriverWait(driver, timeout=1).until(expected_conditions.alert_is_present()):
             auth_by_alert(driver, auth_options)
     except StopIteration:
         pass
-    except (TimeoutException, NoAlertPresentException):
+    except (TimeoutException, NoAlertPresentException) as err:
         # * No login prompt or need to log in via link
-        raise WebDriverException("Dismissed user prompt dialog: This site is asking you to sign in.")
+        raise WebDriverException("Dismissed user prompt dialog: This site is asking you to sign in.") from err

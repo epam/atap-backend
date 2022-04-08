@@ -1,14 +1,14 @@
 import json
+import uuid
 from time import sleep
+from typing import List
 
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import Firefox
 
 import framework.test
 from framework import element
-from framework import test_system
 from framework import xlsdata
-import uuid
 
 with open('framework/axe_groupings.json', 'r', encoding='utf-8') as f:
     AXE_GROUPINGS = json.load(f)
@@ -69,7 +69,7 @@ def get_available_tests():
     return tests
 
 
-def run_tests(webdriver_instance: Firefox, activity, tests_filter):
+def run_tests(webdriver_instance: Firefox, activity, tests_filter) -> List[ImportedTest]:
     webdriver_instance.set_script_timeout(120)
     activity.get(webdriver_instance)
     sleep(2)
@@ -85,8 +85,8 @@ def run_tests(webdriver_instance: Firefox, activity, tests_filter):
     tries = 3
     while tries > 0:
         tries -= 1
+        command = 'var callback = arguments[arguments.length - 1]; axe.run().then(results => callback(results))'
         try:
-            command = 'var callback = arguments[arguments.length - 1]; axe.run().then(results => callback(results))'
             axe_results = webdriver_instance.execute_async_script(command)
             if tests_filter is not None:
                 for category in ('violations', 'inapplicable', 'passes', 'incomplete'):
@@ -138,6 +138,8 @@ def run_tests(webdriver_instance: Firefox, activity, tests_filter):
 
         problematic_elements = []
         checked_elements = []
+        important_examples = 0
+        max_important_examples = 5
         if axe_test['framework_status'] == 'FAIL':
             for node_id, node in enumerate(axe_test['nodes']):
                 # TODO: Support iframes and shadow DOM
@@ -160,6 +162,11 @@ def run_tests(webdriver_instance: Firefox, activity, tests_filter):
                         'error_id': axe_test_id,
                         'uuid': uuid.uuid4().hex
                     }
+                    if important_examples < max_important_examples:
+                        important_examples += 1
+                        problematic_element["important_example"] = True
+                    else:
+                        problematic_element["important_example"] = False
                     if 'pages' not in problematic_element:
                         problematic_element['pages'] = []
                     problematic_element['pages'].append(activity.url)
@@ -173,7 +180,8 @@ def run_tests(webdriver_instance: Firefox, activity, tests_filter):
                     'problem': 'Page does not pass aXe checks',
                     'pages': [activity.url],
                     'force_best_practice': 'best-practice' in axe_test['tags'],
-                    'uuid': uuid.uuid4().hex
+                    'uuid': uuid.uuid4().hex,
+                    'important_example': True
                 })
 
         print(f'Appending axe test {axe_test_id}')

@@ -9,20 +9,8 @@ from selenium.common.exceptions import StaleElementReferenceException
 from framework.activity import Activity
 from framework.element import Element, ElementLostException
 
-POTENTIAL_ACTIVATORS = {
-    "a",
-    "button",
-    "input",
-    "div"
-}
-DEFAULT_TARGET_ELEMENTS = {
-    "a",
-    "button",
-    "input",
-    "img",
-    "div",
-    "select"
-}
+POTENTIAL_ACTIVATORS = {"a", "button", "input", "div"}
+DEFAULT_TARGET_ELEMENTS = {"a", "button", "input", "img", "div", "select"}
 
 
 class _ElementInfo:
@@ -44,7 +32,6 @@ class ElementNeverActivatesException(Exception):
 
 
 class ElementLocator:
-
     def __init__(self, webdriver_instance: webdriver.Firefox, activity: Activity, target_elements: Set[str]):
         self.webdriver_instance = webdriver_instance
         self.activity = activity
@@ -62,23 +49,16 @@ class ElementLocator:
                 self.known_elements[element_type] = []
             new_elements = self.webdriver_instance.find_elements_by_tag_name(element_type)
             if progress_report_callback is not None:
-                progress_report_callback({
-                    "thread_status": {
-                        0: f"Element locator adding {len(new_elements)} <{element_type}> elements"
-                    }
-                })
+                progress_report_callback(
+                    {"thread_status": {0: f"Element locator adding {len(new_elements)} <{element_type}> elements"}}
+                )
+
             for element in new_elements:
                 counter += 1
                 print(f"\rAdding <{element_type}> {counter}/{len(new_elements)}", end="", flush=True)
                 try:
                     self.known_elements[element_type].append(
-                        _ElementInfo(
-                            Element(
-                                element,
-                                self.webdriver_instance
-                            ),
-                            element.is_displayed()
-                        )
+                        _ElementInfo(Element(element, self.webdriver_instance), element.is_displayed())
                     )
                 except StaleElementReferenceException:
                     print()
@@ -142,16 +122,18 @@ class ElementLocator:
         # Remove elements that always stay hidden
         for element_info_list in self.known_elements.values():
             element_info_list[:] = itertools.filterfalse(
-                lambda element_info: not element_info.displayed_ever,
-                element_info_list
+                lambda element_info: not element_info.displayed_ever, element_info_list
             )
 
     @staticmethod
     def get_all_of_type(webdriver_instance: webdriver.Firefox, element_types=None) -> List[Element]:
         elements = []
         for element_type in element_types:
-            elements.extend(Element.from_webelement_list(webdriver_instance.find_elements_by_tag_name(element_type),
-                                                         webdriver_instance))
+            elements.extend(
+                Element.from_webelement_list(
+                    webdriver_instance.find_elements_by_tag_name(element_type), webdriver_instance
+                )
+            )
         return elements
 
     @staticmethod
@@ -166,7 +148,9 @@ class ElementLocator:
         for (k, v) in self.known_elements.items():
             if k in element_types:
                 filtered_elements.append(v)
-        return list(map(lambda element_info: element_info.element, itertools.chain.from_iterable(filtered_elements)))
+        return list(
+            map(lambda element_info: element_info.element, itertools.chain.from_iterable(filtered_elements))
+        )
 
     def activate_element(self, element: Element):
         for known_element in itertools.chain.from_iterable(self.known_elements.values()):

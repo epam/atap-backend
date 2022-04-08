@@ -14,9 +14,7 @@ def time_test(tests, rewrite=False):
     map_elements_with_pages.map_pages()
     with open("framework/time_of_tests/average_pages.json", "r", encoding="utf-8") as file:
         common_pages = json.load(file)
-    project_info = {
-        "page_infos": list()
-    }
+    project_info = {"page_infos": list()}
     tests_to_run = dict()
     unique_name_counter = 0
 
@@ -30,7 +28,9 @@ def time_test(tests, rewrite=False):
             current_loaded_test = current_loaded_test[0]
 
         if current_loaded_test.framework_version < MIN_FRAMEWORK_VERSION:
-            print(f">>> WARNING: TEST {test} OUTDATED, {current_loaded_test.framework_version} < {MIN_FRAMEWORK_VERSION}")
+            print(
+                f">>> WARNING: TEST {test} OUTDATED, {current_loaded_test.framework_version} < {MIN_FRAMEWORK_VERSION}"
+            )
             continue
         try:
             assert isinstance(current_loaded_test.elements_type, str)
@@ -42,7 +42,7 @@ def time_test(tests, rewrite=False):
         test_page = {
             "page_info": {
                 "url": common_pages[current_loaded_test.elements_type],
-                "name": f"{common_pages[current_loaded_test.elements_type]}_{unique_name_counter}"
+                "name": f"{common_pages[current_loaded_test.elements_type]}_{unique_name_counter}",
             }
         }
         unique_name_counter += 1
@@ -92,4 +92,3 @@ def update_average_time(calculated_time: dict, rewrite=False):
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(stored_time, file, ensure_ascii=False, indent=4)
-

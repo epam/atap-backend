@@ -155,7 +155,7 @@ def create_issue_obj_from_metadata(err_id, task, force_best_practice):
         recommendations=orig_data['recommendations'],
         wcag=orig_data['WCAG'],
         issue_type=orig_data['issue_type'],
-        is_best_practice=orig_data['WCAG-BP'] == 'BP' if not force_best_practice else True
+        is_best_practice=orig_data['WCAG-BP'] == 'BP' if force_best_practice is None else force_best_practice
     )
 
     add_labels_to_issue(issue=issue, labels=orig_data['labels'])

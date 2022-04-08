@@ -28,7 +28,7 @@ class ActivitySerializer(serializers.ModelSerializer):
         result = {
             "id": instance.id,
             "name": instance.name,
-            "page": instance.page.id
+            "page": instance.page.id,
         }
 
         if instance.click_sequence is not None:
@@ -42,6 +42,8 @@ class ActivitySerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if "file" in attrs and ("filename" not in attrs or attrs['filename'] is None):
             raise serializers.ValidationError("filename missing but file provided")
+        if "page_resolution" not in attrs:
+            attrs.update({'page_resolution': None})
         return attrs
 
     def create(self, validated_data):
@@ -58,10 +60,11 @@ class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
         fields = (
-            'id',
-            'name',
-            'click_sequence',
-            'file',
-            'filename',
-            'page'
+            "id",
+            "name",
+            "click_sequence",
+            "file",
+            "filename",
+            "page",
+            "page_resolution",
         )

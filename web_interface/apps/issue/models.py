@@ -24,6 +24,8 @@ class Example(models.Model):
     force_best_practice = models.BooleanField(default=False)
     order_in_issuegroup = models.IntegerField(default=1)
     recommendations = models.CharField(max_length=10000, default='', null=True, blank=True)
+    affected_resolutions = models.CharField(max_length=1000, default='', null=True, blank=True)
+    important_example = models.BooleanField(default=True)
 
     @property
     def title(self):

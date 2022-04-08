@@ -26,7 +26,7 @@ class ModalFinder:
         time.sleep(0.2)
         print(f"\rTaking screenshot {screenshot_id}...", end="", flush=True)
         screenshot_filename = f"screenshots/img{screenshot_id}.png"
-        img = Screenshot(self._dr, element['element']).single_element(safe_area=0)
+        img = Screenshot(self._dr, element['element']).single_element()
         if img is not None:
             element["screenshot"] = screenshot_filename
             width, height = img.size

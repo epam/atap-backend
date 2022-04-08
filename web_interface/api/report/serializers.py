@@ -1,7 +1,9 @@
 from django.db.models import Subquery
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
 
+from framework import xlsdata
 from web_interface.api.report.swagger_serializers import (
     VpatReportParamsWSAGSwaggerSerializer, VpatReportParamsChaptersSwaggerSerializer
 )
@@ -131,32 +133,21 @@ class AuditReportPagesSerializer(serializers.ModelSerializer):
 
 
 class ExampleAuditReportSerializer(serializers.ModelSerializer):
-    screenshots = serializers.SerializerMethodField()
-    pages = AuditReportPagesSerializer(
-        many=True, read_only=True, allow_empty=True
-    )
+    title = SerializerMethodField()
+
+    def get_title(self, obj):
+        orig_data = xlsdata.get_data_for_issue(obj.err_id)
+        wcag = orig_data['WCAG']
+        issue_title = orig_data['issue_title']
+        return f'{issue_title} {wcag}'
 
     class Meta:
         model = Example
         fields = (
             'id',
             'issue',
-            'title',
-            'problematic_element_selector',
-            'code_snippet',
-            'pages',
-            'severity',
-            'steps',
-            'expected_result',
-            'actual_result',
-            'note',
-            'recommendations',
-            'screenshots'
+            'title'
         )
-
-    @swagger_serializer_method(serializer_or_field=serializers.ListSerializer(child=serializers.CharField()))
-    def get_screenshots(self, obj):
-        return ExampleScreenshotSerializer(obj.examplescreenshot_set, many=True).data
 
 
 class IssuesAuditReportSerializer(serializers.ModelSerializer):
@@ -278,6 +269,8 @@ class AuditReportSerializer(serializers.ModelSerializer):
     @swagger_serializer_method(serializer_or_field=ExampleAuditReportSerializer(many=True))
     def get_warnings(self, obj):
         example_qs = Example.objects.filter(severity='WARN', issue=None, test_results=obj.test_results)
+        example_qs = list(example_qs)
+        example_qs = sorted(example_qs, key=lambda x: x.title)
         serializer = ExampleAuditReportSerializer(example_qs, many=True)
         return serializer.data
 

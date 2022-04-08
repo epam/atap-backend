@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from axes.models import AccessAttempt
 
-from web_interface.settings import RECAPTCHA_SECRET_KEY
+from web_interface.apps.system.parameter_manager import get_parameter
 from web_interface.api.auth.serializers import (
     CheckerAPIKeySerializer, AuthTokenResponseSerializer, CheckerAPIKeyResponseSerializer, AuthTokenCaptchaSerializer
 )
@@ -48,6 +48,7 @@ class CustomAuthToken(ObtainAuthToken):
                                     status.HTTP_403_FORBIDDEN: "Blocked by reCAPTCHA"
                                     })
     def post(self, request, *args, **kwargs):
+        RECAPTCHA_SECRET_KEY = get_parameter("RECAPTCHA_SECRET_KEY")
         if RECAPTCHA_SECRET_KEY:
             data = {
                 'response': request.data.get('token'),

@@ -36,13 +36,14 @@ class IllegalArgumentError(ValueError):
 
 
 class Activity:
-    def __init__(self, name, url, options, page_after_login, commands):
+    def __init__(self, name, url, options, page_after_login, commands, page_resolution=None):
         self.url = url
         self.name = name
         self.options = options
         self.page_after_login = page_after_login
         self.commands = commands
         self.windows_in_store = {}
+        self.page_resolution = tuple(map(int, page_resolution.split("x"))) if page_resolution else None
 
     def ignore_command(self, number_of_command, current_command):
         command = current_command["command"]
@@ -58,6 +59,8 @@ class Activity:
         if not hasattr(webdriver_instance, "authenticated"):
             authentication.memorize_authentication(webdriver_instance, False)
 
+        if self.page_resolution:
+            webdriver_instance.set_window_size(*self.page_resolution)
         self.open(webdriver_instance, {})
 
         for i, command in enumerate(self.commands):
@@ -151,7 +154,7 @@ class Activity:
                 time.sleep(1)
                 return handle
 
-    def store_window_handle(self, driver, state, target, targets, value):
+    def store_window_handle(self, driver, state, target, targets, value: str) -> None:
         """
 
         :param target: str, title=... or tab=int or just str
@@ -350,13 +353,9 @@ class Activity:
             return "The element was not found on the page."
 
         element = element.get_element(driver)
-        # self.scroll(element)
-        # time.sleep(4)
         driver.execute_script("arguments[0].scrollIntoView();", element)
         time.sleep(4)
-        # ActionChains(driver).move_to_element(element).perform()
-        # time.sleep(4)
-        res = self.try_send_keys(element, "")
+        self.try_send_keys(element, "")
         time.sleep(4)
 
     def mouse_out(self, driver, state, target, targets, value):
@@ -436,17 +435,6 @@ class Activity:
 
         driver.execute_script("arguments[0].scrollIntoView();", element)
         time.sleep(4)
-        # try:
-        #     if element.is_displayed() and element.is_enabled():
-        #         element.click()
-        #         time.sleep(4)
-        #     else:
-        #         # try to click with js
-        #         driver.execute_script("arguments[0].click();", element)
-        #         time.sleep(4)
-        #
-        # except (ElementNotInteractableException, ElementClickInterceptedException) as err:
-        #     return err
 
         try:
             self.click_attempt(element)
@@ -475,20 +463,6 @@ class Activity:
             )
         except (NoSuchElementException, TimeoutException):
             return None
-
-        # try:
-        #     if target.startswith("css"):
-        #         return Element(driver.find_element_by_css_selector(target[4:]), driver)
-        #     if target.startswith("id"):
-        #         return Element(driver.find_element_by_id(target[3:]), driver)
-        #     if target.startswith("xpath"):
-        #         return Element(driver.find_element_by_xpath(target[6:]), driver)
-        #     if target.startswith("name"):
-        #         return Element(driver.find_element_by_name(target[5:]), driver)
-        #     if target.startswith("linkText"):
-        #         return Element(driver.find_element_by_link_text(target[9:]), driver)
-        # except NoSuchElementException:
-        #     return None
 
     def get_element_from_target(
         self, driver: RemoteWebDriver, target: str, targets: List[List[str]]
@@ -532,6 +506,8 @@ def auth_by_options(webdriver_instance: RemoteWebDriver, options: str) -> None:
         elif options["auth_type"] == "alert":
             authentication.auth_by_alert(webdriver_instance, options["auth_setting"])
 
+    wait_for_page_load(webdriver_instance)
+
 
 def load_activities(page_info: dict, webdriver_instance: RemoteWebDriver) -> List[Activity]:
     activities = []
@@ -546,6 +522,7 @@ def load_activities(page_info: dict, webdriver_instance: RemoteWebDriver) -> Lis
 
     if "activities" in page_info and len(page_info["activities"]) > 0:
         for activity_info in page_info["activities"]:
+            page_resolution = page_info["page_resolution"]
             name = activity_info["name"]
             element_locators = (
                 list(filter(lambda x: x, activity_info["element_click_order"]))
@@ -563,6 +540,7 @@ def load_activities(page_info: dict, webdriver_instance: RemoteWebDriver) -> Lis
                             options=options,
                             commands=test["commands"],
                             page_after_login=page_info["page_after_login"],
+                            page_resolution=page_info["page_resolution"],
                         )
                     )
             else:
@@ -578,6 +556,7 @@ def load_activities(page_info: dict, webdriver_instance: RemoteWebDriver) -> Lis
                         options=options,
                         commands=commands,
                         page_after_login=page_info["page_after_login"],
+                        page_resolution=page_info["page_resolution"],
                     )
                 )
 
@@ -589,6 +568,7 @@ def load_activities(page_info: dict, webdriver_instance: RemoteWebDriver) -> Lis
                 options=options,
                 page_after_login=page_info["page_after_login"],
                 commands=[],
+                page_resolution=page_info["page_resolution"],
             )
         )
     return activities

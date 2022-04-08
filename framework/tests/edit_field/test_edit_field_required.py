@@ -227,7 +227,7 @@ class Test(SuperTest):
     def analyze_form_warnings(self):
         if self.submit_buttons:
             for button in self.submit_buttons:
-                button.click()
+                button.click(self.driver)
                 Element.safe_foreach(list(self.elements_data.keys()), self.update_fields_text)
 
     def update_fields_text(self, element):

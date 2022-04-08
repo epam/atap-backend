@@ -1,4 +1,5 @@
 from django.core.files.base import ContentFile
+from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
 from web_interface.apps.issue.models import Example, ExampleScreenshot
@@ -38,6 +39,11 @@ class ExampleSerializer(serializers.ModelSerializer):
         allow_empty=True, required=False,
         child_relation=serializers.PrimaryKeyRelatedField(allow_empty=False, queryset=Page.objects.all())
     )
+    screenshots = serializers.SerializerMethodField()
+
+    @swagger_serializer_method(serializer_or_field=serializers.ListSerializer(child=serializers.CharField()))
+    def get_screenshots(self, obj):
+        return ExampleScreenshotSerializer(obj.examplescreenshot_set, many=True).data
 
     class Meta:
         model = Example
@@ -56,9 +62,11 @@ class ExampleSerializer(serializers.ModelSerializer):
             'expected_result',
             'issue',
             'uuid',
+            'title',
             'force_best_practice',
             'order_in_issuegroup',
-            'recommendations'
+            'recommendations',
+            'screenshots'
         )
 
 

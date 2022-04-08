@@ -4,14 +4,13 @@ from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
 from framework.tools import crawler
 from web_interface.apps.task.models import SitemapTask
 
 
 class SiteMap:
-    def __init__(self, url, mode, options=None, depth_level: Optional[int] = None):
+    def __init__(self, url: str, mode: str, options: Optional[str] = None, depth_level: Optional[int] = None):
         self.url = url
         self.mode = mode
         self.options = options
@@ -19,7 +18,6 @@ class SiteMap:
         self.depth_level = depth_level
         self.status = SitemapTask.FINISHED
         self.message = ""
-        self.driver = webdriver.Firefox()
 
     def get_sitemap(self) -> List[dict]:
         self._get_pages()
@@ -31,6 +29,7 @@ class SiteMap:
     def _get_pages(self) -> None:
         if self.mode:
             self._get_simple_map()
+        # FIXME: self.mode is always `True`, so the following lines will never be executed
         else:
             self._get_official_sitemap()
 

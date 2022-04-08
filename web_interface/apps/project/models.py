@@ -6,6 +6,8 @@ import hvac
 import hvac.exceptions
 import json
 
+from web_interface.apps.system import parameter_manager
+
 
 class Project(models.Model):
     DEFAULT_AUTH_OPTIONS = """{"auth_required": false, "auth_setting": "{}"}"""
@@ -56,10 +58,10 @@ class Project(models.Model):
             if "password" in decoded_value["auth_setting"]:
                 if decoded_value["auth_setting"]["password"] == "#project_auth_password":
                     try:
-                        vcl = hvac.Client(url=settings.VAULT_URL, namespace=settings.VAULT_NAMESPACE)
-                        if settings.VAULT_ROLE_ID is not None:
+                        vcl = hvac.Client(url=parameter_manager.get_parameter("VAULT_URL"), namespace=parameter_manager.get_parameter("VAULT_NAMESPACE"))
+                        if parameter_manager.get_parameter("VAULT_ROLE_ID") is not None:
                             vcl.auth.approle.login(
-                                role_id=settings.VAULT_ROLE_ID, secret_id=settings.VAULT_SECRET_ID
+                                role_id=parameter_manager.get_parameter("VAULT_ROLE_ID"), secret_id=parameter_manager.get_parameter("VAULT_SECRET_ID")
                             )
                         else:
                             print("Defaulting to debug token")
@@ -80,9 +82,9 @@ class Project(models.Model):
             decoded_value["auth_setting"] = json.loads(decoded_value["auth_setting"])
 
             if "password" in decoded_value["auth_setting"]:
-                vcl = hvac.Client(url=settings.VAULT_URL, namespace=settings.VAULT_NAMESPACE)
-                if settings.VAULT_ROLE_ID is not None:
-                    vcl.auth.approle.login(role_id=settings.VAULT_ROLE_ID, secret_id=settings.VAULT_SECRET_ID)
+                vcl = hvac.Client(url=parameter_manager.get_parameter("VAULT_URL"), namespace=parameter_manager.get_parameter("VAULT_NAMESPACE"))
+                if parameter_manager.get_parameter("VAULT_ROLE_ID") is not None:
+                    vcl.auth.approle.login(role_id=parameter_manager.get_parameter("VAULT_ROLE_ID"), secret_id=parameter_manager.get_parameter("VAULT_SECRET_ID"))
                 else:
                     vcl.token = "root"
                 vcl.secrets.kv.v2.create_or_update_secret(

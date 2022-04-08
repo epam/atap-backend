@@ -10,6 +10,7 @@ class Activity(models.Model):
     click_sequence = models.CharField(max_length=2000, null=True)
     side_file = models.FileField(null=True)
     filename = models.CharField(max_length=500, null=True)
+    page_resolution = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
         db_table = 'activity'

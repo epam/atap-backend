@@ -38,3 +38,4 @@ COPY ./CI/epam.com_rootca.crt /usr/local/share/ca-certificates/
 COPY ./CI/epam.com_issuingca.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
+#HEALTHCHECK CMD ps -e | grep python || celery inspect ping -A web_interface -d celery@$HOSTNAME

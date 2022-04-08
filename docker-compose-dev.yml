@@ -36,6 +36,7 @@ services:
       dockerfile: CI/app.Dockerfile
     volumes:
       - .:/app
+    command: bash -c "cd /app && python3 manage.py collectstatic --noinput && python3 manage.py migrate && python manage.py create_defaultuser && python manage.py cache_available_tests && python manage.py delete_corrupted_page_screenshots && python manage.py delete_corrupted_issue_screenshots && python manage.py abort_running_tasks && gunicorn --access-logfile - --error-logfile - -t 240 --workers 2 --bind unix:/socket/socket.sock web_interface.wsgi:application --reload"
 
   worker_longlived:
     build:

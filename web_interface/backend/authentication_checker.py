@@ -1,17 +1,13 @@
 import json
 import logging
 
-# import time
-
 from dataclasses import dataclass
 
 from selenium import webdriver
 from selenium.common.exceptions import (
     TimeoutException,
     InvalidSelectorException,
-    ElementNotInteractableException,
     NoSuchElementException,
-    NoAlertPresentException,
 )
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver, WebElement
 from selenium.webdriver.support import expected_conditions
@@ -19,7 +15,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from web_interface.backend.url_checker import check_url
 from web_interface.backend.auth_network_requests import auth_proceed
-
 from framework import await_page_load
 from framework.tools.authentication import auth_by_page, auth_by_modal, auth_by_alert
 
@@ -109,6 +104,7 @@ class AuthenticationChecker:
             logger.warning("Get timed out, processing with partially loaded site")
         logger.info("Waiting for the page to load")
         await_page_load.wait_for_page_load(self.dr)
+
         return True
 
     def __find_element(self, css_selector: str):
@@ -141,6 +137,7 @@ class AuthenticationChecker:
             return CheckAuthenticationResponse(message=f"The page {self.url} could not be opened.", is_valid=False)
 
         button = self.__find_element(self.options["activator"])
+
         if button is None:
             return CheckAuthenticationResponse(
                 message=f'The element with the css selector "{self.options["activator"]}" is not on the page {self.url}.',
@@ -157,13 +154,10 @@ class AuthenticationChecker:
 
         return authentication_result(auth_passed)
 
-    # TODO
     def __execute_for_alert(self) -> CheckAuthenticationResponse:
-        print("__EXECUTE_FOR_ALERT")
         if not self.__open_page(self.url):
             return CheckAuthenticationResponse(message=f"The page {self.url} could not be opened.", is_valid=False)
 
         auth_passed = self.__verify_auth(verify_auth_by_alert, self.options)
-        print("AUTH_PASSED", auth_passed)
 
         return authentication_result(auth_passed)
