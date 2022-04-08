@@ -38,3 +38,13 @@ docker-compose -f docker-compose-sentry.yml up -d
 ```
 
 And open `http://localhost:9000`
+
+
+
+###### Accessibility Checker Supports Ukraine 🇺🇦
+
+In solidarity, we ask that you consider financially supporting the organizations below:
+
+[EPAM’s Global Partners for the Ukraine Humanitarian Crisis](https://epam.benevity.org/community)
+
+
