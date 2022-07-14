@@ -1,12 +1,7 @@
 cd /models
 
 if [ ! -f GoogleNews.bin ]; then
-  echo "Google News work2vec model not found, downloading"
-  wget -q -c "https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz"
-  echo "Unzipping..."
-  gunzip /models/GoogleNews-vectors-negative300.bin.gz
-  mv /models/GoogleNews-vectors-negative300.bin /models/GoogleNews.bin
-  echo "Google News work2vec model installed"
+  echo "ERROR: Google News work2vec model not found!"
 fi
 
 if [ ! -d $NLTK_DATA ]; then
